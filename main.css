@@ -1,0 +1,219 @@
+/*
+// chia playout
+*/
+.root{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.nav_input{
+    width: 100%;
+    height: 8vh;
+}
+.navbar{
+    width: 100%;
+    height: 100%;
+}
+.content{
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    width: 100%;
+    height:92vh ;
+}
+.aside{
+    height: 100%;
+    width: 30%;
+}
+.menuFriend{
+    height: 9%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.chatBox{
+    width: 70%;
+    height: 100%;
+    border-left: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;   
+}
+/* tieu đề khung chat*/
+.headerBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #EFEFEF;
+    width: 100%;
+    height: 9%;
+}
+.boxChat{
+    width: 100%;
+    height: 78%;
+    border-top: 0.1rem solid #ddd;
+}
+/* khung gửi tin nhan*/
+.inputMessage{
+    width: 100%;
+    height: 13%;
+    border-top: 0.1rem solid #ddd;
+}
+.custum{
+    width: 100%;
+    height: 35%;
+}
+.frameMessage{
+    width: 100%;
+    height: 65%;
+}
+.frameMessage input[type=text]{
+    width: 100%;
+    height: 90%;
+    border: none;
+    padding: 1em;
+}
+/* menu*/
+.btn_Menu{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    border: none;
+}
+.btn_Menu i{
+    font-size: 1.3rem;
+}
+.titleBox{
+    text-align: center;
+    flex-grow: 1;
+    font-size: 1.5rem;
+    background-color: #EFEFEF;
+}
+.iconBox{
+    width: 10%;
+    height: 100%;
+    border: none;
+}
+/*Hien thị thông tin*/
+.iconBox.infor{
+    position: relative;    
+}
+.displayInfor{
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    position: absolute;
+    top:4.2rem;
+    right: 0;
+    background-color: aqua;
+    width: 40vh;
+    height: 55vh;
+}
+/*
+    responsive
+*/
+@media only screen and (max-width: 46.1875em){
+    .header{
+        display: none;
+    }
+    .nav_input{
+        width: 100%;
+        height: 10vh;
+    }
+    .navbar{
+        width: 100%;
+        height: 100%;
+    }
+   
+    .content{
+        height: 90vh;
+        box-sizing: border-box;
+    }
+    .aside{
+        display: flex;
+        text-align: center;
+        flex-direction: column-reverse;
+        height: 100%;
+        width: 100%;
+    }
+    .menuFriend{
+        height: 10%;
+        width: 100%;
+        flex-wrap: nowrap;
+    }
+    .chatBox{
+        display: none;
+    }
+    .display{
+        display: block;
+        position: fixed;
+        top:0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: #ddd;
+    }
+    
+    .displayList{
+        width: 100%;
+        height: 90%;
+        border: 1px solid mediumaquamarine;
+    }
+    
+  
+    .iconBox{
+        width: 18%;
+    }
+    .displayInfor{
+    
+        position: fixed;
+        top:0;
+        right: 0;
+        background-color: aqua;
+        width: 100%;
+        height: 100%;
+    }
+    
+}
+/*
+--phần danh sách bạn
+*/
+.listFriend {
+  display:grid;
+  width: 100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.friend {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 0.1rem solid #ddd;
+  width: 100%;
+}
+
+.friend .picture {
+
+  height: 2.5rem;
+  width: 2.5rem;
+  border: 1 solid #fbf3ff;
+  border-radius: 50%;
+  background-image: url('https://via.placeholder.com/40x40');
+  background-size: cover;
+}
+
+.friend .nameFriend {
+    flex-grow: 1;
+  }
+.iconOption{
+      padding-right: 1rem;
+}
+.active{
+      background-color: #ddd;
+  }
