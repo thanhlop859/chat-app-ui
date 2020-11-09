@@ -7,6 +7,7 @@ function httpGet(theUrl)
     xmlHttp.send( null );
     return xmlHttp.responseText;
 }
+
 var userInfor = 
     {
         id: "001",
@@ -14,9 +15,21 @@ var userInfor =
         password:  "*****",
         age: 21,
         gender: 1,
-        username: "Trần Thị Mỹ Tiên",
+        username: "Lê Duy Thanh",
         role:"user",
         friend:[{
+            email:"hai@gmail.com",
+            username: "Lê Đinh Vũ"
+        },{
+            email:"hai@gmail.com",
+            username: "Lê Đinh Vũ"
+        },{
+            email:"hai@gmail.com",
+            username: "Lê Đinh Vũ"
+        },{
+            email:"hai@gmail.com",
+            username: "Lê Đinh Vũ"
+        },{
             email:"hai@gmail.com",
             username: "Lê Đinh Vũ"
         }, {
@@ -25,10 +38,33 @@ var userInfor =
         },{
             email: "kazz@gmail.com",
             username: "Huỳnh Tấn Đức"
+        },{
+            email: "kazz@gmail.com",
+            username: "Huỳnh Tấn Đức"
+        },{
+            email: "kazz@gmail.com",
+            username: "Huỳnh Tấn Đức"
+        },{
+            email: "kazz@gmail.com",
+            username: "Huỳnh Tấn Đức"
+        },{
+            email: "kazz@gmail.com",
+            username: "Huỳnh Tấn Đức"
+        },{
+            email: "kazz@gmail.com",
+            username: "Huỳnh Tấn Đức"
+        },{
+            email: "kazz@gmail.com",
+            username: "Huỳnh Tấn Đức"
+        },{
+            email: "kazz@gmail.com",
+            username: "Huỳnh Tấn Đức"
+        },{
+            email: "kazz@gmail.com",
+            username: "Huỳnh Tấn Đức"
         }],
         group:[{
             groupId: "001",
-            members:[],
             manager:"Lê Duy Thanh",
             groupName: "G1"
         }],
@@ -45,7 +81,7 @@ var userInfor =
             }
         ],
         acceptFriendRequest:[]
-    };
+};
 // 3 request 
 // - lay thong tin user
 // - lay danh sách bạn 
@@ -53,19 +89,22 @@ var userInfor =
 // - danh sách 
 
 
-// đợi tài liệu load
+// đợi tài liệu load và hiển thị danh sách bạn 
 function scriptDisplay(){
     displayListFriend();
 }
+//hàm hiển thị danh sách bạn
 function displayListFriend(){
     var selectHtml = document.querySelector(".listFriend");
-   
+    document.getElementsByClassName("listFriend")[0].style.display="grid";
+    document.getElementsByClassName("myProfile")[0].style.display ="none";
     //create list friend
     var s = userInfor.friend.map(x =>{
-        return `<li class='friend' onclick="friendOnClick(this)" id="`+ x.email+`"><div class='picture'></div><div class='nameFriend'>${x.username}</div><div class='iconOption'><i class='fas fa-ellipsis-v fa-lg'></i></div></li>` 
+        return `<li class='friend' onclick="friendOnClick(this)" id="`+ x.email+`"><div class='picture'></div><div class='nameFriend'>${x.username}</div></li>` 
     });
     selectHtml.innerHTML =s.join('');   
 }
+
 // đăt lại trạng thái fucus
 function friendOnClick(nodeFriend){
     var friendElements = document.getElementsByClassName('friend');
@@ -101,29 +140,27 @@ function displayFrameChat(node){
     //
     //
     document.getElementsByClassName("chatBox")[0].setAttribute("class","chatBox display");
-
 }
-function httpGet(theUrl)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
-}
+// hiển thị danh sách nhóm đã join
 function displayListGroup(){
+    document.getElementsByClassName("listFriend")[0].style.display="grid";
+    document.getElementsByClassName("myProfile")[0].style.display ="none";
     var selectHtml = document.querySelector(".listFriend");
     var s = userInfor.group.map(x =>{
-        return `<li class='friend' onclick="friendOnClick(this) "><div class='picture'></div><div class='nameFriend'>${x.groupName}</div><div class='iconOption'><i class='fas fa-ellipsis-v fa-lg'></i></div></li>` 
+        return `<li class='friend' onclick="friendOnClick(this)"><div class='picture'></div><div class='nameFriend'>${x.groupName}</div></li>` 
     });
     selectHtml.innerHTML =s.join('');
 }
+//hiển thị danh sách những yêu cầu kết bạn
 function displayListRequest(){
     var selectHtml = document.querySelector(".listFriend");
-    
+    document.getElementsByClassName("listFriend")[0].style.display="grid";
+    document.getElementsByClassName("myProfile")[0].style.display ="none";
+    //create list request
     var s = userInfor.friendRequest.map(x =>{
-        return `<li class='friend' onclick="friendOnClick(this)"><div class='picture'></div><div class='nameFriend'>${x.username}</div><div class='iconOption'><i class='fas fa-ellipsis-v fa-lg'></i></div></li>` 
+        return `<li class='friend' id="`+ x.email+`"><div class='picture'></div><div class='nameFriend'>${x.username}</div></li>` 
     });
-    selectHtml.innerHTML =s.join('');
+    selectHtml.innerHTML =s.join('');   
 }
 
 // hàm đóng khung chat lại
@@ -133,8 +170,35 @@ function offDislayChat(){
 }
 // hàm hiển thị thông tin group hoặc friend
 function onDisplayInfor(){
-    var a = document.getElementsByClassName("displayInfor")[0].style.visibility = "visible";
+
+    // var a = document.getElementsByClassName("displayInfor")[0].style.visibility ;
+    // if(a ==="hidden"){
+    //     document.getElementsByClassName("displayInfor")[0].style.visibility ="visible";
+    // }else{
+    //     document.getElementsByClassName("displayInfor")[0].style.visibility= "hidden";
+    // }
 }
-function offDisplayInfor(){
-    var a = document.getElementsByClassName("displayInfor")[0].style.visibility = "hidden";
+// hàm hiển thị thông tin cá nhân và đăng xuất
+function displayProfile(){
+    document.getElementsByClassName("listFriend")[0].style.display="none";
+    var a = document.getElementsByClassName("myProfile")[0];
+    a.style.display ="flex";
+    document.getElementById('myName').innerText = "Tên : "+userInfor.username;
+    document.getElementById('myAge').innerText = "Tuổi : "+userInfor.age;
+    document.getElementById("myGender").innerText = "Giới tính : "+userInfor.gender;
+    document.getElementById('myEmail').innerText = "Địa chỉ Email : "+userInfor.email;
+
+}
+function onDisplayFormUpdate(){
+        document.getElementsByClassName("fromUpdate")[0].style.display="block";
+        //set thông tin
+
+        document.getElementsByName('username')[0].setAttribute("placeholder",userInfor.username);
+        document.getElementsByName('email')[0].setAttribute("placeholder",userInfor.email);
+
+        document.getElementsByName('age')[0].setAttribute("placeholder",userInfor.age);
+        document.getElementById("female").setAttribute("checked","checked");
+}
+function offDisplayFormUpdate(){
+    document.getElementsByClassName("fromUpdate")[0].style.display="none";
 }
