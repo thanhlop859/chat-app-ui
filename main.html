@@ -17,34 +17,53 @@
 
 <body onload="scriptDisplay()">
     <div id="root">
-        <div class="overlay"></div>
+        <!--Lớp làm mờ-->
+        <div id="overlay" style=" display: none"></div>
+        <!--Cảnh báo-->
+        <div id="confirmationBox" class="formIndex2 warningBox display_none">
+            <div>Bạn muốn đăng xuất tài khoản này</div>
+            <div>
+                <button class="cancelbtn" onclick="offPlayout('confirmationBox','display_none')">Hủy</button>
+                <button class='ok'>Đồng ý</button>
+            </div>
+
+        </div>
+        <!--Thanh điều hướng và tìm kiếm-->
         <div class="nav_input">
             <nav class="nav_box">
                 <div class="logo">
-                    <img class="picture" src="favicon.io/chatApp-logo.png" style="background: none;background-size: cover;"></img>
+                    <img class="picture" src="favicon.io/chatApp-logo.png"
+                        style="background: none;background-size: cover;"></img>
                 </div>
                 <div class="navLink">
                     ChatApp
                 </div>
                 <input type="text" name="navSearch" placeholder="Tìm kiếm bạn bè"></input>
             </nav>
-
         </div>
+        <!-- end-NAV-search -->
+
         <div class="content">
             <div class="aside">
                 <div class="menuFriend">
                     <button class='btn_Menu'><i class="far fa-comment-dots"></i></button>
-                    <button class='btn_Menu' onclick="displayListGroup(this)"><i class="fas fa-users"></i></button>
+                    <button class='btn_Menu' onclick="displayListGroup(this)" onblur="offPlayout('btnAddGroup','display_none')"><i
+                            class="fas fa-users"></i></button>
                     <button class='btn_Menu' onclick="displayListRequest(this)"><i
                             class="fas fa-user-plus"></i></button>
                     <button class='btn_Menu' onclick="displayListFriend(this)"><i
                             class="fas fa-user-friends"></i></button>
                     <button class='btn_Menu' onclick="displayProfile()"><i class="fas fa-id-card"></i></button>
                 </div>
-                <!--hiển thị danh sách-->
+                <!--Hiển thị danh sách-->
                 <div class="displayList">
                     <ul class="listFriend" style="display:grid">
                     </ul>
+                    <!--Nút Thêm Nhóm-->
+                    <div id="btnAddGroup" class="display_none">
+                        <button class="btn_Menu" onclick="onDisplayPlayout('frmAddGroup','display_none')"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <!-- end -->
                     <div class="myProfile" style="display: none">
                         <div class="myInfor">
                             <div class="picture"></div>
@@ -54,13 +73,28 @@
                         <div class="myInfor" id="myGender"></div>
                         <div class="myInfor" id="myEmail"></div>
                         <div class="myInfor"><button onclick="onDisplayFormUpdate()">Chỉnh sửa thông tin</button></div>
-                        <div class="myInfor"><button>Đăng xuất</button></div>
+                        <div class="myInfor"><button onclick="onDisplayPlayout('confirmationBox','display_none')">Đăng
+                                xuất</button></div>
                     </div>
                 </div>
-
             </div>
-            <!--form update-->
-            <div class="fromUpdate" style="display: none">
+            <!-- Khung thêm nhóm chat -->
+            <div class="formIndex2 frmAddGroup display_none" id="frmAddGroup">
+                <form action="">
+                    <h2>Tạo nhóm chat</h2>
+                    <label for="">Tên nhóm:</label>
+                    <input type="text" name="nameGroup" id="" placeholder="Tên nhóm">
+
+                    <hr>
+                    <button class="cancelbtn" onclick="offPlayout('frmAddGroup','display_none')">Hủy</button>
+                    <button type="submit" class="ok">Xong</button>
+                    <hr>
+                </form>
+            </div>
+            <!-- end -->
+
+            <!--khung chỉnh sửa thông tin người dùng-->
+            <div class="formIndex2 fromUpdate" style="display: none">
                 <form action="#" style="border:1px solid #ccc">
                     <div class="wrap">
                         <h2>Chỉnh sửa thông tin</h2>
@@ -70,7 +104,7 @@
                             <input type="text" placeholder="username" name="username" required>
                         </label>
 
-                        
+
                         <br>
                         <label for="email"><b>Địa chỉ Email</b>
                             <input type="text" placeholder="Enter Email" name="email" required>
@@ -88,21 +122,22 @@
                             <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
                         </label>
                         <br>
-        
+
                         <label for="radio"> Giới tính:</label>
                         <input type="radio" id="male" checked="" name="gender" value="male">
                         <label for="male">Nam</label>
-                        <input type="radio" id="female" name="gender" value="female" >
+                        <input type="radio" id="female" name="gender" value="female">
                         <label for="female">Nữ</label><br>
                         <hr>
                         <div class="clearfix">
                             <button type="button" class="cancelbtn" onclick="offDisplayFormUpdate()">Hủy</button>
-                            <button type="submit" class="signupbtn">Cập nhật</button>
+                            <button type="submit" class="ok">Cập nhật</button>
                         </div>
                     </div>
                 </form>
-
             </div>
+            <!-- end  -->
+
             <!-- phần chat-->
             <div class="chatBox">
                 <div class="headerBox">
@@ -138,7 +173,6 @@
                         <input type="text" name="message" id="message" placeholder="Nhập tin nhắn để gửi">
                     </div>
                 </div>
-
             </div>
         </div>
 

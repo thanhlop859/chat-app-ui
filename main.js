@@ -1,12 +1,4 @@
-const url ="https://chatapp-kkt.herokuapp.com/"
-
-function httpGet(theUrl)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
-}
+const url = "https://chatapp-kkt.herokuapp.com/users/"
 
 var userInfor = 
     {
@@ -93,6 +85,7 @@ var userInfor =
 function scriptDisplay(){
     displayListFriend();
 }
+
 //hàm hiển thị danh sách bạn
 function displayListFriend(){
     var selectHtml = document.querySelector(".listFriend");
@@ -104,6 +97,7 @@ function displayListFriend(){
     });
     selectHtml.innerHTML =s.join('');   
 }
+// -----------------------------------------------------------
 
 // đăt lại trạng thái fucus
 function friendOnClick(nodeFriend){
@@ -117,6 +111,8 @@ function friendOnClick(nodeFriend){
     displayFrameChat(nodeFriend);
     
 }
+//-----------------------------------------------------------
+
 // hiển thị khung chat 
 function displayFrameChat(node){
     var id =node.getAttribute("id");
@@ -141,6 +137,8 @@ function displayFrameChat(node){
     //
     document.getElementsByClassName("chatBox")[0].setAttribute("class","chatBox display");
 }
+//----------------------------------------------------------------------------------
+
 // hiển thị danh sách nhóm đã join
 function displayListGroup(){
     document.getElementsByClassName("listFriend")[0].style.display="grid";
@@ -150,7 +148,10 @@ function displayListGroup(){
         return `<li class='friend' onclick="friendOnClick(this)"><div class='picture'></div><div class='nameFriend'>${x.groupName}</div></li>` 
     });
     selectHtml.innerHTML =s.join('');
+    onDisplayPlayout('btnAddGroup','display_none')
 }
+//--------------------------------------------
+
 //hiển thị danh sách những yêu cầu kết bạn
 function displayListRequest(){
     var selectHtml = document.querySelector(".listFriend");
@@ -163,11 +164,14 @@ function displayListRequest(){
     selectHtml.innerHTML =s.join('');   
 }
 
+
 // hàm đóng khung chat lại
 function offDislayChat(){
     document.getElementsByClassName("chatBox")[0].setAttribute("class","chatBox");
     document.getElementsByClassName("titleBox")[0].innerText="Chọn bạn để chat";
 }
+
+
 // hàm hiển thị thông tin group hoặc friend
 function onDisplayInfor(){
 
@@ -178,6 +182,8 @@ function onDisplayInfor(){
     //     document.getElementsByClassName("displayInfor")[0].style.visibility= "hidden";
     // }
 }
+
+
 // hàm hiển thị thông tin cá nhân và đăng xuất
 function displayProfile(){
     document.getElementsByClassName("listFriend")[0].style.display="none";
@@ -187,10 +193,11 @@ function displayProfile(){
     document.getElementById('myAge').innerText = "Tuổi : "+userInfor.age;
     document.getElementById("myGender").innerText = "Giới tính : "+userInfor.gender;
     document.getElementById('myEmail').innerText = "Địa chỉ Email : "+userInfor.email;
-
 }
+
+//Hiển thị form cập nhật
 function onDisplayFormUpdate(){
-        document.getElementsByClassName("fromUpdate")[0].style.display="block";
+        document.getElementsByClassName("fromUpdate")[0].style.display="grid";
         //set thông tin
 
         document.getElementsByName('username')[0].setAttribute("placeholder",userInfor.username);
@@ -198,7 +205,23 @@ function onDisplayFormUpdate(){
 
         document.getElementsByName('age')[0].setAttribute("placeholder",userInfor.age);
         document.getElementById("female").setAttribute("checked","checked");
+
+        document.getElementById('overlay').style.display='block';
+
 }
+
 function offDisplayFormUpdate(){
     document.getElementsByClassName("fromUpdate")[0].style.display="none";
+    document.getElementById('overlay').style.display='none';
+}
+//hàm hiển thị playout ẩn
+function onDisplayPlayout(idPlayout,classDel){
+    var a = document.getElementById(idPlayout).getAttribute("class");
+    a =  a.replace(classDel,"");
+    document.getElementById(idPlayout).setAttribute("class",a);
+}
+// tắt playout
+function offPlayout(idPlayout,classInsert){
+    var a = document.getElementById(idPlayout).getAttribute("class"); 
+    document.getElementById(idPlayout).setAttribute("class",a+classInsert);  
 }
