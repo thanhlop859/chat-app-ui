@@ -105,8 +105,10 @@ body{
 
 /* khung gửi tin nhan*/
 .inputMessage {
+    background-color: #EFEFEF;
     width: 100%;
-    height: 20%;
+    height: 20vh;
+    bottom: 0rem;
     border-top: 0.1rem solid #ddd;
 }
 
