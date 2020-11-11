@@ -7,6 +7,7 @@
     <script src="main.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
     <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1.0">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Chat App</title>
@@ -28,42 +29,29 @@
             </div>
 
         </div>
-        <!--Thanh điều hướng và tìm kiếm-->
-        <div class="nav_input">
-            <nav class="nav_box">
-                <div class="logo">
-                    <img class="picture" src="favicon.io/chatApp-logo.png"
-                        style="background: none;background-size: cover;"></img>
-                </div>
-                <div class="navLink">
-                    ChatApp
-                </div>
-                <input type="text" name="navSearch" placeholder="Tìm kiếm bạn bè"></input>
-            </nav>
-        </div>
-        <!-- end-NAV-search -->
-
         <div class="content">
             <div class="aside">
-                <div class="menuFriend">
-                    <button class='btn_Menu'><i class="far fa-comment-dots"></i></button>
-                    <button class='btn_Menu' onclick="displayListGroup(this)"><i
-                            class="fas fa-users"></i></button>
-                    <button class='btn_Menu' onclick="displayListRequest(this)"><i
-                            class="fas fa-user-plus"></i></button>
-                    <button class='btn_Menu' onclick="displayListFriend(this)"><i
-                            class="fas fa-user-friends"></i></button>
-                    <button class='btn_Menu' onclick="displayProfile()"><i class="fas fa-id-card"></i></button>
+                <!-- Thanh trạng thái -->
+                <div class="status">
+                    <div class="picture"></div>
+                    <div>Tên và trang thái</div>
+                </div>
+                <!-- thanh search  -->
+                <div class="inputSearch">
+                    <input type="text" name="navSearch" placeholder="Tìm kiếm bạn bè"></input>
                 </div>
                 <!--Hiển thị danh sách-->
                 <div class="displayList">
+                    
                     <ul class="listFriend" style="display:grid">
                     </ul>
                     <!--Nút Thêm Nhóm-->
                     <div id="btnAddGroup" class="display_none">
-                        <button class="btn_Menu" onclick="onDisplayPlayout('frmAddGroup','display_none')"><i class="fas fa-plus"></i></button>
+                        <button class="btn_Menu" onclick="onDisplayPlayout('frmAddGroup','display_none')"><i
+                                class="fas fa-plus"></i></button>
                     </div>
                     <!-- end -->
+                    <!-- form thông tin người dùng -->
                     <div class="myProfile" style="display: none">
                         <div class="myInfor">
                             <div class="picture"></div>
@@ -76,6 +64,16 @@
                         <div class="myInfor"><button onclick="onDisplayPlayout('confirmationBox','display_none')">Đăng
                                 xuất</button></div>
                     </div>
+                </div>
+                <!-- menu chức năng  -->
+                <div class="menuFriend">
+                    <button class='btn_Menu'><i class="far fa-comment-dots"></i></button>
+                    <button class='btn_Menu' onclick="displayListGroup(this)"><i class="fas fa-users"></i></button>
+                    <button class='btn_Menu' onclick="displayListRequest(this)"><i
+                            class="fas fa-user-plus"></i></button>
+                    <button class='btn_Menu' onclick="displayListFriend(this)"><i
+                            class="fas fa-user-friends"></i></button>
+                    <button class='btn_Menu' onclick="displayProfile()"><i class="fas fa-id-card"></i></button>
                 </div>
             </div>
             <!-- Khung thêm nhóm chat -->
@@ -175,6 +173,20 @@
                 </div>
             </div>
         </div>
+        <!--Thanh điều hướng và tìm kiếm-->
+        <div class="footer">
+            <nav class="nav_box">
+                <div class="logo">
+                    <img class="picture" src="favicon.io/chatApp-logo.png"
+                        style="background: none;background-size: cover;"></img>
+                    <div><h3>chatApp</h3></div>
+                    <div>Version: 1.0.0</div>
+                </div>
+                <div class="navLink"> 
+                </div>
+            </nav>
+        </div>
+        <!-- end-NAV-search -->
 
     </div>
     <!--Boostrap-->

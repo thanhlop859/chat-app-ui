@@ -83,7 +83,7 @@ var userInfor =
 
 // đợi tài liệu load và hiển thị danh sách bạn 
 function scriptDisplay(){
-    displayListFriend();
+    //displayListFriend();
 }
 
 //hàm hiển thị danh sách bạn
@@ -96,6 +96,8 @@ function displayListFriend(){
         return `<li class='friend' onclick="friendOnClick(this)" id="`+ x.email+`"><div class='picture'></div><div class='nameFriend'>${x.username}</div></li>` 
     });
     selectHtml.innerHTML =s.join('');   
+    //tắt nút thêm nhóm
+    offPlayout('btnAddGroup','display_none');
 }
 // -----------------------------------------------------------
 
@@ -136,6 +138,9 @@ function displayFrameChat(node){
     //
     //
     document.getElementsByClassName("chatBox")[0].setAttribute("class","chatBox display");
+
+    //tắt nút thêm nhóm
+    offPlayout('btnAddGroup','display_none');
 }
 //----------------------------------------------------------------------------------
 
@@ -162,6 +167,7 @@ function displayListRequest(){
         return `<li class='friend' id="`+ x.email+`"><div class='picture'></div><div class='nameFriend'>${x.username}</div></li>` 
     });
     selectHtml.innerHTML =s.join('');   
+    offPlayout('btnAddGroup','display_none');
 }
 
 
@@ -193,6 +199,9 @@ function displayProfile(){
     document.getElementById('myAge').innerText = "Tuổi : "+userInfor.age;
     document.getElementById("myGender").innerText = "Giới tính : "+userInfor.gender;
     document.getElementById('myEmail').innerText = "Địa chỉ Email : "+userInfor.email;
+   
+    offPlayout('btnAddGroup','display_none');// tắt nút thêm nhóm
+
 }
 
 //Hiển thị form cập nhật
@@ -223,5 +232,6 @@ function onDisplayPlayout(idPlayout,classDel){
 // tắt playout
 function offPlayout(idPlayout,classInsert){
     var a = document.getElementById(idPlayout).getAttribute("class"); 
-    document.getElementById(idPlayout).setAttribute("class",a+classInsert);  
+    if(a.search(classInsert)==(-1))
+    document.getElementById(idPlayout).setAttribute("class"," "+a+classInsert);  
 }
