@@ -58,7 +58,7 @@ body{
 
 
 /*khung chính*/
-.content {
+.main-box {
     box-sizing: border-box;
     text-align: center;
     display: flex;
@@ -72,7 +72,7 @@ body{
     width: 30%;
 }
 
-.menuFriend {
+.menu {
     height: 9%;
     width: 100%;
     display: flex;
@@ -97,7 +97,7 @@ body{
     position: relative;
 }
 
-.boxChat {
+.wrap-box-chat {
     width: 100%;
     height: 70%;
     border-top: 0.1rem solid #ddd;
@@ -105,7 +105,7 @@ body{
 }
 
 /* khung gửi tin nhan*/
-.inputMessage {
+.input-box {
     background-color: #EFEFEF;
     width: 100%;
     height: 20vh;
@@ -119,12 +119,12 @@ body{
     border-bottom: 0.1rem solid #ddd;
 }
 
-.frameMessage {
+.input-box div:last-child {
     width: 100%;
     height: 65%;
 }
 
-.frameMessage input[type=text] {
+.input-box div:last-child input[type=text] {
     width: 100%;
     height: 100%;
     border: none;
@@ -134,15 +134,13 @@ body{
 .btn_Menu {
     width: 100%;
     height: 100%;
-    text-align: center;
-    border: none;
 }
 
 .btn_Menu i {
     font-size: 1.3rem;
 }
 
-.titleBox {
+.title-box {
     text-align: center;
     flex-grow: 1;
     font-size: 1.5rem;
@@ -172,7 +170,7 @@ body{
     padding: 1rem;
 }
 
-.displayList {
+.box-list {
     width: 100%;
     height: 80%;
     overflow: scroll;
@@ -187,12 +185,12 @@ body{
 
     padding: 0.7rem;
 }
-.inputSearch{
+.search-box{
     height: 10%;
     padding: 0.5rem;
     width: 100%;
 }
-.inputSearch input {
+.search-box input {
     width: 100%;
     height: 100%;
     border-radius: 3rem;
@@ -200,7 +198,7 @@ body{
     padding: 1rem;
 }
 /* lop có z-index=2 */
-.formIndex2 {
+.box-hidden {
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -210,7 +208,7 @@ body{
     background-color: #fff;
 }
 
-.warningBox div {
+.warn div {
     display: flex;
     justify-content: center;
     margin: 2rem;
@@ -229,7 +227,7 @@ body{
 */
 
 
-.listFriend {
+.list-friend {
     display: grid;
     width: 100%;
     list-style-type: none;
@@ -261,7 +259,7 @@ body{
     background-color: #ddd;
 }
 
-.myProfile {
+.box-info-user {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -269,7 +267,7 @@ body{
     justify-content: center;
 }
 
-.myInfor {
+.info {
     width: 100%;
     flex-grow: 1;
     display: flex;
@@ -349,7 +347,7 @@ button:hover {
     height: 3rem;
 }
 /*  khung hiển thị tin nhắn   */
-#ariaMessage{
+#box-chat{
     width: 100%;
     height: 100%;
     overflow: scroll;
@@ -357,7 +355,7 @@ button:hover {
     flex-direction: column;
     background-color: #fff;
 }
-#ariaMessage >div{
+#box-chat >div{
     display: flex;
 }
 .send div{
@@ -368,14 +366,15 @@ button:hover {
     border-radius: 1rem;
     border: 0.1rem solid #ddd;
     margin:1rem;
-    padding: 0.3rem;
+    text-align: left;
+    padding: 1rem;
 }
 /* ---------------------------------------------------------------------------------------------------- */
 /*
     responsive
 */
 @media only screen and (min-width: 48rem){
-    .menuFriend {
+    .menu{
         position: fixed;
         height: 8%;
         width: 40%;
@@ -383,13 +382,13 @@ button:hover {
         left: 40%;
         margin: 0.8rem;
     }
-    .menuFriend button{
+    .menu button{
         margin-left: 1rem;
     }
 
 }
 @media only screen and (max-width: 46.1875em) {
-    .formIndex2 {
+    .box-hidden {
         width: 100%;
         top: 0;
         left: 0;
@@ -400,7 +399,7 @@ button:hover {
        display: none;
     }
 
-    .content {
+    .main-box {
         position: relative;
         height: 100vh;
         box-sizing: border-box;
@@ -414,7 +413,7 @@ button:hover {
         width: 100%;
     }
 
-    .menuFriend {
+    .menu{
         height: 10%;
         width: 100%;
         flex-wrap: nowrap;
@@ -433,7 +432,7 @@ button:hover {
         height: 100vh;
     }
 
-    .displayList {
+    .box-list {
         width: 100%;
         height: 90%;
         overflow: scroll;
@@ -473,7 +472,7 @@ button:hover {
         top: 80%;
     }
 
-    .inputMessage {
+    .input-box {
         position: fixed;
         bottom: 0rem;
     }

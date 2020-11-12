@@ -21,15 +21,15 @@
         <!--Lớp làm mờ-->
         <div id="overlay" style=" display: none"></div>
         <!--Cảnh báo-->
-        <div id="confirmationBox" class="formIndex2 warningBox display_none">
+        <div id="warn-box" class="box-hidden warn display_none">
             <div>Bạn muốn đăng xuất tài khoản này</div>
             <div>
-                <button class="cancelbtn" onclick="offPlayout('confirmationBox','display_none')">Hủy</button>
+                <button class="cancelbtn" onclick="offPlayout('warn-box','display_none')">Hủy</button>
                 <button class='ok'>Đồng ý</button>
             </div>
 
         </div>
-        <div class="content">
+        <div class="main-box">
             <div class="aside">
                 <!-- Thanh trạng thái -->
                 <div class="status">
@@ -37,13 +37,13 @@
                     <div>Tên và trang thái</div>
                 </div>
                 <!-- thanh search  -->
-                <div class="inputSearch">
-                    <input type="text" name="navSearch" placeholder="Tìm kiếm bạn bè"></input>
+                <div class="search-box">
+                    <input type="text" placeholder="Tìm kiếm bạn bè"></input>
                 </div>
                 <!--Hiển thị danh sách-->
-                <div class="displayList">
+                <div class="box-list">
 
-                    <ul class="listFriend" style="display:grid">
+                    <ul class="list-friend" style="display:grid">
                     </ul>
                     <!--Nút Thêm Nhóm-->
                     <div id="btnAddGroup" class="display_none">
@@ -52,22 +52,22 @@
                     </div>
                     <!-- end -->
                     <!-- form thông tin người dùng -->
-                    <div class="myProfile" style="display: none">
-                        <div class="myInfor">
+                    <div class="box-info-user" style="display: none">
+                        <div class="info">
                             <div class="picture"></div>
                         </div>
-                        <div class="myInfor" id="myName"></div>
-                        <div class="myInfor" id="myAge"></div>
-                        <div class="myInfor" id="myGender"></div>
-                        <div class="myInfor" id="myEmail"></div>
-                        <div class="myInfor"><button onclick="onDisplayFormUpdate()">Chỉnh sửa thông tin</button></div>
-                        <div class="myInfor"><button onclick="onDisplayPlayout('confirmationBox','display_none')">Đăng
+                        <div class="info" id="myName"></div>
+                        <div class="info" id="myAge"></div>
+                        <div class="info" id="myGender"></div>
+                        <div class="info" id="myEmail"></div>
+                        <div class="info"><button onclick="onDisplayFormUpdate()">Chỉnh sửa thông tin</button></div>
+                        <div class="info"><button onclick="onDisplayPlayout('warn-box','display_none')">Đăng
                                 xuất</button></div>
                     </div>
                 </div>
                 <!-- menu chức năng  -->
-                <div class="menuFriend">
-                    <button class='btn_Menu'>
+                <div class="menu">
+                    <button class='btn_Menu' onclick="onDisplayListChat()">
                         <i class="far fa-comment-dots"></i>
                     </button>
                     <button class='btn_Menu' onclick="displayListGroup(this)">
@@ -85,7 +85,7 @@
                 </div>
             </div>
             <!-- Khung thêm nhóm chat -->
-            <div class="formIndex2 frmAddGroup display_none" id="frmAddGroup">
+            <div class="box-hidden frmAddGroup display_none" id="frmAddGroup">
                 <form action="">
                     <h2>Tạo nhóm chat</h2>
                     <label for="">Tên nhóm:</label>
@@ -100,7 +100,7 @@
             <!-- end -->
 
             <!--khung chỉnh sửa thông tin người dùng-->
-            <div class="formIndex2 fromUpdate" style="display: none">
+            <div class="box-hidden fromUpdate" style="display: none">
                 <form action="#" style="border:1px solid #ccc">
                     <div class="wrap">
                         <h2>Chỉnh sửa thông tin</h2>
@@ -161,15 +161,15 @@
             <div class="chatBox">
                 <div class="headerBox">
                     <button class="iconBox" onclick="offDislayChat()"><i class="fas fa-arrow-left"></i></button>
-                    <div class="titleBox">Chọn bạn để chat</div>
+                    <div class="title-box">Chọn bạn để chat</div>
                     <button class="iconBox infor" onmousedown="onDisplayPlayout('inforFriend','display_none')"">
                         <i class=" fas fa-ellipsis-h"></i>
 
                     </button>
                 </div>
                 <!-- khung hiển thị tin nhắn  -->
-                <div class="boxChat">
-                    <div id="ariaMessage">
+                <div class="wrap-box-chat">
+                    <div id="box-chat">
                         <div class="stl_mes send">
                             <div></div>
                             <span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla
@@ -216,14 +216,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="inputMessage">
+                <div class="input-box">
                     <div class="custum">
                         <label for="file">
                             <input type="file" name="file" id="file">
                         </label>
 
                     </div>
-                    <div class="frameMessage">
+                    <div>
                         <input type="text" name="message" id="message" placeholder="Nhập tin nhắn để gửi">
                     </div>
                 </div>
