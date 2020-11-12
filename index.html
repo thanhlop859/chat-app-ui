@@ -42,7 +42,7 @@
                 </div>
                 <!--Hiển thị danh sách-->
                 <div class="displayList">
-                    
+
                     <ul class="listFriend" style="display:grid">
                     </ul>
                     <!--Nút Thêm Nhóm-->
@@ -67,13 +67,21 @@
                 </div>
                 <!-- menu chức năng  -->
                 <div class="menuFriend">
-                    <button class='btn_Menu'><i class="far fa-comment-dots"></i></button>
-                    <button class='btn_Menu' onclick="displayListGroup(this)"><i class="fas fa-users"></i></button>
-                    <button class='btn_Menu' onclick="displayListRequest(this)"><i
-                            class="fas fa-user-plus"></i></button>
-                    <button class='btn_Menu' onclick="displayListFriend(this)"><i
-                            class="fas fa-user-friends"></i></button>
-                    <button class='btn_Menu' onclick="displayProfile()"><i class="fas fa-id-card"></i></button>
+                    <button class='btn_Menu'>
+                        <i class="far fa-comment-dots"></i>
+                    </button>
+                    <button class='btn_Menu' onclick="displayListGroup(this)">
+                        <i class="fas fa-users"></i>
+                    </button>
+                    <button class='btn_Menu' onclick="displayListRequest(this)">
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                    <button class='btn_Menu' onclick="displayListFriend(this)">
+                        <i  class="fas fa-user-friends"></i>
+                    </button>
+                    <button class='btn_Menu' onclick="displayProfile()">
+                        <i class="fas fa-id-card"></i>
+                    </button>
                 </div>
             </div>
             <!-- Khung thêm nhóm chat -->
@@ -135,31 +143,79 @@
                 </form>
             </div>
             <!-- end  -->
+            <!-- hiển thị thông tin ban chát -->
+            <div id="inforFriend" class="displayInforFriend display_none">
 
+                <button onclick="offPlayout('inforFriend','display_none')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="">
+                    Tên:
+                </div>
+                <div>Email:</div>
+                <div class="">Tuổi:</div>
+                <div class="">Kho lưu trữ:</div>
+                <div class="">Xóa bạn</div>
+            </div>
             <!-- phần chat-->
             <div class="chatBox">
                 <div class="headerBox">
                     <button class="iconBox" onclick="offDislayChat()"><i class="fas fa-arrow-left"></i></button>
                     <div class="titleBox">Chọn bạn để chat</div>
-                    <button class="iconBox infor" onclick="onDisplayInfor()">
-                        <i class="fas fa-ellipsis-h"></i>
+                    <button class="iconBox infor" onmousedown="onDisplayPlayout('inforFriend','display_none')"">
+                        <i class=" fas fa-ellipsis-h"></i>
 
                     </button>
-                    <div class="displayInfor" style="visibility: hidden">
+                </div>
+                <!-- khung hiển thị tin nhắn  -->
+                <div class="boxChat">
+                    <div id="ariaMessage">
+                        <div class="stl_mes send">
+                            <div></div>
+                            <span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla
+                                et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis
+                                dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus
+                                vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in
+                                odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis
+                                dictum nisi, sed ullamcorper ipsum dignissim ac. In at libero sed nunc venenatis
+                                imperdiet sed ornare turpis. Donec vitae dui eget tellus gravida venenatis. Integer
+                                fringilla congue eros non fermentum. Sed dapibus pulvinar nibh tempor porta. Cras ac leo
+                                purus. Mauris quis
+                                <br>
+                                <span>Lê Duy Thanh</span>
+                            </span>
+                        </div>
+                        <div class="stl_mes receive">
+                            <div></div>
+                            <span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla
+                                et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis
+                                dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus
+                                vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in
+                                odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis
+                                dictum nisi, sed ullamcorper ipsum dignissim ac. In at libero sed nunc venenatis
+                                imperdiet sed ornare turpis. Donec vitae dui eget tellus gravida venenatis. Integer
+                                fringilla congue eros non fermentum. Sed dapibus pulvinar nibh tempor porta. Cras ac leo
+                                purus. Mauris quis</span>
 
-                        <div class="headerBox" onmousedown="onDisplayInfor()">
-                            <i class="fas fa-arrow-left"></i>
                         </div>
-                        <div class="headerBox">
-                            Tên:
+                        <div class="stl_mes send">
+                            <div></div>
+                            <span> Tin Nhắn</span>
                         </div>
-                        <div class="headerBox">Email:</div>
-                        <div class="headerBox">Tuổi:</div>
-                        <div class="headerBox">Kho lưu trữ:</div>
-                        <div class="headerBox">Xóa bạn</div>
+                        <div class="stl_mes recieve">
+                            <div></div>
+                            <span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla
+                                et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis
+                                dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus
+                                vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in
+                                odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis
+                                dictum nisi, sed ullamcorper ipsum dignissim ac. In at libero sed nunc venenatis
+                                imperdiet sed ornare turpis. Donec vitae dui eget tellus gravida venenatis. Integer
+                                fringilla congue eros non fermentum. Sed dapibus pulvinar nibh tempor porta. Cras ac leo
+                                purus. Mauris quis</span>
+                        </div>
                     </div>
                 </div>
-                <div class="boxChat">Hộp chat</div>
                 <div class="inputMessage">
                     <div class="custum">
                         <label for="file">
@@ -179,10 +235,12 @@
                 <div class="logo">
                     <img class="picture" src="favicon.io/chatApp-logo.png"
                         style="background: none;background-size: cover;"></img>
-                    <div><h3>chatApp</h3></div>
+                    <div>
+                        <h3>chatApp</h3>
+                    </div>
                     <div>Version: 1.0.0</div>
                 </div>
-                <div class="navLink"> 
+                <div class="navLink">
                 </div>
             </nav>
         </div>

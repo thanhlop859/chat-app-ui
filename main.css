@@ -67,6 +67,7 @@ body{
 }
 
 .aside {
+    border: 0.1rem solid #ddd;
     height: 100%;
     width: 30%;
 }
@@ -155,10 +156,10 @@ body{
 }
 
 /*Hien thị thông tin*/
-.displayInfor {
+.displayInforFriend {
     display: flex;
+    z-index: 1;
     flex-direction: column;
-    flex-wrap: nowrap;
     justify-content: center;
     position: absolute;
     top: 5rem;
@@ -166,6 +167,9 @@ body{
     background-color: #fff;
     width: 40vh;
     height: 55vh;
+}
+.displayInforFriend >div{
+    padding: 1rem;
 }
 
 .displayList {
@@ -344,6 +348,28 @@ button:hover {
     width: 3rem;
     height: 3rem;
 }
+/*  khung hiển thị tin nhắn   */
+#ariaMessage{
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+}
+#ariaMessage >div{
+    display: flex;
+}
+.send div{
+    flex-grow: 1;
+}
+.stl_mes  span{
+    max-width: 50%;
+    border-radius: 1rem;
+    border: 0.1rem solid #ddd;
+    margin:1rem;
+    padding: 0.3rem;
+}
 /* ---------------------------------------------------------------------------------------------------- */
 /*
     responsive
@@ -417,11 +443,11 @@ button:hover {
         width: 18%;
     }
 
-    .displayInfor {
+    .displayInforFriend{
         position: fixed;
         top: 0;
         right: 0;
-        background-color: aqua;
+        
         width: 100%;
         height: 100%;
     }
@@ -446,9 +472,38 @@ button:hover {
     #btnAddGroup{
         top: 80%;
     }
+
+    .inputMessage {
+        position: fixed;
+        bottom: 0rem;
+    }
+    .stl_mes  span{
+        max-width: 80%;
+    }
 }
 
 /* set hiển thị none cho playout - phải để cuối */
 .display_none {
     display: none;
 }
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 0.1rem;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #fff; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #ddd; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ccc; 
+  }
