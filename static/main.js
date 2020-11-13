@@ -101,7 +101,7 @@ var listChatting=[
     },
     {
         chatId:'001',
-        email:"ak@gmail.com",
+        titleChat:"nhóm 1 ",
         message:[
             {
                 email:"kazz@gmail.com", //đại diện người gửi
@@ -137,10 +137,8 @@ function scriptDisplay(){
     //displayListFriend();
 }
 
-// hiển thị danh sách đang chat
-function onDisplayListChat(){
-    
-}
+
+
 const selectListFriend = document.getElementsByClassName("list-friend");
 const selectBoxInfoUser =document.getElementsByClassName("box-info-user");
 const selectChatBox = document.getElementsByClassName("chatBox");
@@ -165,9 +163,17 @@ function displayListFriend(){
     var ds =s.join('');
     boxMenu(ds);   
     //tắt nút thêm nhóm
-    offPlayout('btnAddGroup','display_none');
+    offPlayout('btnAddGroup','display-none');
 }
 
+// hiển thị danh sách bạn đang chat 
+function onDisplayListChat(){
+    var s = listChatting.map(x =>{
+        return `<li class='friend' onclick="friendOnClick(this)"><div class='picture'></div><div class='nameFriend'>${x.titleChat}</div></li>` 
+    });
+    var ds =s.join('');
+    boxMenu(ds);   
+}
 // hiển thị danh sách nhóm đã join
 
 function displayListGroup(){
@@ -176,7 +182,7 @@ function displayListGroup(){
     });
     var ds =s.join('');
     boxMenu(ds);   
-    onDisplayPlayout('btnAddGroup','display_none')
+    onDisplayPlayout('btnAddGroup','display-none')
 }
 
 //hiển thị danh sách những yêu cầu kết bạn
@@ -187,7 +193,7 @@ function displayListRequest(){
     });
     var ds =s.join('');
     boxMenu(ds);  
-    offPlayout('btnAddGroup','display_none');
+    offPlayout('btnAddGroup','display-none');
 }
 // hàm hiển thị thông tin cá nhân và đăng xuất
 function displayProfile(){
@@ -200,7 +206,7 @@ function displayProfile(){
     document.getElementById("myGender").innerText = "Giới tính : "+userInfor.gender;
     document.getElementById('myEmail').innerText = "Địa chỉ Email : "+userInfor.email;
    
-    offPlayout('btnAddGroup','display_none');// tắt nút thêm nhóm
+    offPlayout('btnAddGroup','display-none');// tắt nút thêm nhóm
 
 }
 
@@ -250,7 +256,7 @@ function displayFrameChat(node){
     chatbox[0].setAttribute("class","chatBox display");
 
     //tắt nút thêm nhóm
-    offPlayout('btnAddGroup','display_none');
+    offPlayout('btnAddGroup','display-none');
      //tự động cuộn xuống nội dung mới 
      boxChat.scrollTop = boxChat.scrollHeight;
  

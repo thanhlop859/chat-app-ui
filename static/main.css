@@ -154,7 +154,7 @@ body{
 }
 
 /*Hien thị thông tin*/
-.displayInforFriend {
+.form-info-friend {
     display: flex;
     z-index: 1;
     flex-direction: column;
@@ -166,7 +166,7 @@ body{
     width: 40vh;
     height: 55vh;
 }
-.displayInforFriend >div{
+.form-info-friend >div{
     padding: 1rem;
 }
 
@@ -442,7 +442,7 @@ button:hover {
         width: 18%;
     }
 
-    .displayInforFriend{
+    .form-info-friend{
         position: fixed;
         top: 0;
         right: 0;
@@ -482,7 +482,7 @@ button:hover {
 }
 
 /* set hiển thị none cho playout - phải để cuối */
-.display_none {
+.display-none {
     display: none;
 }
 

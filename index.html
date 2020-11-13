@@ -2,258 +2,71 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="main.css">
-    <script src="main.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-    <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!--fontawesome-->
+    
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>Chat App</title>
-    <script>
-        const x = screen.height + "px";
-    </script>
-</head>
+<body>
+    <div class="container">
+        <div class="myCard">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="myLeftCtn">
+                        <form action="https://chatapp-kkt.herokuapp.com/auth" class="myForm text-center" id="login-form">
+                            <header>Đăng nhập </header>
+                            <div class="form-group">
+                                <i class="fas fa-user"></i>
+                                <input type="text" class="myInput" placeholder="Email" id="email" name="email" required />
+                                <div class="invalid-feedback">Please fill out this field</div>
+                            </div>
+                            <div class="form-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" class="myInput" placeholder="Mật khẩu" name="password" id="password" required />
+                            </div>
 
-<body onload="scriptDisplay()">
-    <div id="root">
-        <!--Lớp làm mờ-->
-        <div id="overlay" style=" display: none"></div>
-        <!--Cảnh báo-->
-        <div id="warn-box" class="box-hidden warn display_none">
-            <div>Bạn muốn đăng xuất tài khoản này</div>
-            <div>
-                <button class="cancelbtn" onclick="offPlayout('warn-box','display_none')">Hủy</button>
-                <button class='ok'>Đồng ý</button>
-            </div>
-
-        </div>
-        <div class="main-box">
-            <div class="aside">
-                <!-- Thanh trạng thái -->
-                <div class="status">
-                    <div class="picture"></div>
-                    <div>Tên và trang thái</div>
-                </div>
-                <!-- thanh search  -->
-                <div class="search-box">
-                    <input type="text" placeholder="Tìm kiếm bạn bè"></input>
-                </div>
-                <!--Hiển thị danh sách-->
-                <div class="box-list">
-
-                    <ul class="list-friend" style="display:grid">
-                    </ul>
-                    <!--Nút Thêm Nhóm-->
-                    <div id="btnAddGroup" class="display_none">
-                        <button class="btn_Menu" onclick="onDisplayPlayout('frmAddGroup','display_none')"><i
-                                class="fas fa-plus"></i></button>
-                    </div>
-                    <!-- end -->
-                    <!-- form thông tin người dùng -->
-                    <div class="box-info-user" style="display: none">
-                        <div class="info">
-                            <div class="picture"></div>
-                        </div>
-                        <div class="info" id="myName"></div>
-                        <div class="info" id="myAge"></div>
-                        <div class="info" id="myGender"></div>
-                        <div class="info" id="myEmail"></div>
-                        <div class="info"><button onclick="onDisplayFormUpdate()">Chỉnh sửa thông tin</button></div>
-                        <div class="info"><button onclick="onDisplayPlayout('warn-box','display_none')">Đăng
-                                xuất</button></div>
+                           
+                            <input type="submit" class="butt" value="Đăng nhập" />
+                            <br><br>
+                            <input type="button" class="butt"  onclick="window.location.href='../RegisterForm/index.html'" value="Đăng ký" />
+                        </form>
+                            
                     </div>
                 </div>
-                <!-- menu chức năng  -->
-                <div class="menu">
-                    <button class='btn_Menu' onclick="onDisplayListChat()">
-                        <i class="far fa-comment-dots"></i>
-                    </button>
-                    <button class='btn_Menu' onclick="displayListGroup(this)">
-                        <i class="fas fa-users"></i>
-                    </button>
-                    <button class='btn_Menu' onclick="displayListRequest(this)">
-                        <i class="fas fa-user-plus"></i>
-                    </button>
-                    <button class='btn_Menu' onclick="displayListFriend(this)">
-                        <i  class="fas fa-user-friends"></i>
-                    </button>
-                    <button class='btn_Menu' onclick="displayProfile()">
-                        <i class="fas fa-id-card"></i>
-                    </button>
-                </div>
-            </div>
-            <!-- Khung thêm nhóm chat -->
-            <div class="box-hidden frmAddGroup display_none" id="frmAddGroup">
-                <form action="">
-                    <h2>Tạo nhóm chat</h2>
-                    <label for="">Tên nhóm:</label>
-                    <input type="text" name="nameGroup" id="" placeholder="Tên nhóm">
-
-                    <hr>
-                    <button class="cancelbtn" onclick="offPlayout('frmAddGroup','display_none')">Hủy</button>
-                    <button type="submit" class="ok">Xong</button>
-                    <hr>
-                </form>
-            </div>
-            <!-- end -->
-
-            <!--khung chỉnh sửa thông tin người dùng-->
-            <div class="box-hidden fromUpdate" style="display: none">
-                <form action="#" style="border:1px solid #ccc">
-                    <div class="wrap">
-                        <h2>Chỉnh sửa thông tin</h2>
-                        <hr>
-
-                        <label for="username"><b>Tên tài khoản</b>
-                            <input type="text" placeholder="username" name="username" required>
-                        </label>
-
-
-                        <br>
-                        <label for="email"><b>Địa chỉ Email</b>
-                            <input type="text" placeholder="Enter Email" name="email" required>
-
-                        </label>
-                        <br>
-
-
-                        <label for="email"><b>Tuổi hiện tại</b>
-                            <input type="text" placeholder="tuổi hiện tại" name="age" required>
-                        </label>
-
-                        <br>
-                        <label for="psw-repeat"><b>Password</b>
-                            <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-                        </label>
-                        <br>
-
-                        <label for="radio"> Giới tính:</label>
-                        <input type="radio" id="male" checked="" name="gender" value="male">
-                        <label for="male">Nam</label>
-                        <input type="radio" id="female" name="gender" value="female">
-                        <label for="female">Nữ</label><br>
-                        <hr>
-                        <div class="clearfix">
-                            <button type="button" class="cancelbtn" onclick="offDisplayFormUpdate()">Hủy</button>
-                            <button type="submit" class="ok">Cập nhật</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <!-- end  -->
-            <!-- hiển thị thông tin ban chát -->
-            <div id="inforFriend" class="displayInforFriend display_none">
-
-                <button onclick="offPlayout('inforFriend','display_none')">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-                <div class="">
-                    Tên:
-                </div>
-                <div>Email:</div>
-                <div class="">Tuổi:</div>
-                <div class="">Kho lưu trữ:</div>
-                <div class="">Xóa bạn</div>
-            </div>
-            <!-- phần chat-->
-            <div class="chatBox">
-                <div class="headerBox">
-                    <button class="iconBox" onclick="offDislayChat()"><i class="fas fa-arrow-left"></i></button>
-                    <div class="title-box">Chọn bạn để chat</div>
-                    <button class="iconBox infor" onmousedown="onDisplayPlayout('inforFriend','display_none')"">
-                        <i class=" fas fa-ellipsis-h"></i>
-
-                    </button>
-                </div>
-                <!-- khung hiển thị tin nhắn  -->
-                <div class="wrap-box-chat">
-                    <div id="box-chat">
-                        <div class="stl_mes send">
-                            <div></div>
-                            <span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla
-                                et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis
-                                dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus
-                                vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in
-                                odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis
-                                dictum nisi, sed ullamcorper ipsum dignissim ac. In at libero sed nunc venenatis
-                                imperdiet sed ornare turpis. Donec vitae dui eget tellus gravida venenatis. Integer
-                                fringilla congue eros non fermentum. Sed dapibus pulvinar nibh tempor porta. Cras ac leo
-                                purus. Mauris quis
-                                <br>
-                                <span>Lê Duy Thanh</span>
-                            </span>
-                        </div>
-                        <div class="stl_mes receive">
-                            <div></div>
-                            <span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla
-                                et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis
-                                dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus
-                                vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in
-                                odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis
-                                dictum nisi, sed ullamcorper ipsum dignissim ac. In at libero sed nunc venenatis
-                                imperdiet sed ornare turpis. Donec vitae dui eget tellus gravida venenatis. Integer
-                                fringilla congue eros non fermentum. Sed dapibus pulvinar nibh tempor porta. Cras ac leo
-                                purus. Mauris quis</span>
-
-                        </div>
-                        <div class="stl_mes send">
-                            <div></div>
-                            <span> Tin Nhắn</span>
-                        </div>
-                        <div class="stl_mes recieve">
-                            <div></div>
-                            <span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla
-                                et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis
-                                dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus
-                                vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in
-                                odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis
-                                dictum nisi, sed ullamcorper ipsum dignissim ac. In at libero sed nunc venenatis
-                                imperdiet sed ornare turpis. Donec vitae dui eget tellus gravida venenatis. Integer
-                                fringilla congue eros non fermentum. Sed dapibus pulvinar nibh tempor porta. Cras ac leo
-                                purus. Mauris quis</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-box">
-                    <div class="custum">
-                        <label for="file">
-                            <input type="file" name="file" id="file">
-                        </label>
-
-                    </div>
-                    <div>
-                        <input type="text" name="message" id="message" placeholder="Nhập tin nhắn để gửi">
+                <div class="col-md-6">
+                    <div class="myRightCtn">
+                            <div class="box">
+                                <header>Chat App</header>
+                                <p>
+                                    vision:1.0<br>
+                                    Group:
+                                </p>
+                                <input type="button" class="butt_out" value='Learn more'>
+                            </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--Thanh điều hướng và tìm kiếm-->
-        <div class="footer">
-            <nav class="nav_box">
-                <div class="logo">
-                    <img class="picture" src="favicon.io/chatApp-logo.png"
-                        style="background: none;background-size: cover;"></img>
-                    <div>
-                        <h3>chatApp</h3>
-                    </div>
-                    <div>Version: 1.0.0</div>
-                </div>
-                <div class="navLink">
-                </div>
-            </nav>
-        </div>
-        <!-- end-NAV-search -->
-
     </div>
-    <!--Boostrap-->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
+    <script src="./login.js"></script>
 </body>
 
 </html>
