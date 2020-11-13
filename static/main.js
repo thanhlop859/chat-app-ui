@@ -186,18 +186,17 @@ var listChatting=[
 
 /**********************************************************************/
 
-// đợi tài liệu load và hiển thị danh sách bạn 
-function scriptDisplay(){
-    //displayListFriend();
-}
-
-
 
 const selectListFriend = document.getElementsByClassName("list-friend");
 const selectBoxInfoUser =document.getElementsByClassName("box-info-user");
 const selectChatBox = document.getElementsByClassName("chatBox");
 const selectTitleBox=document.getElementsByClassName("title-box");
 const selectBoxChat =document.getElementsByClassName('box-chat');
+const selectFormUpdate=document.getElementsByClassName("fromUpdate");
+// đợi tài liệu load và hiển thị danh sách bạn 
+function scriptDisplay(){
+    onDisplayListChat();
+}
 
 //hàm hiển thị danh sách bạn
 function boxMenu(ds){
@@ -237,7 +236,7 @@ function displayListGroup(){
     });
     var ds =s.join('');
     boxMenu(ds);   
-    onDisplayPlayout('btnAddGroup','display-none')
+    onDisplayPlayout('btnAddGroup','display-none',0)
 }
 
 //hiển thị danh sách những yêu cầu kết bạn
@@ -261,7 +260,7 @@ function displayProfile(){
     document.getElementById("myGender").innerText = "Giới tính : "+userInfor.gender;
     document.getElementById('myEmail').innerText = "Địa chỉ Email : "+userInfor.email;
    
-    offPlayout('btnAddGroup','display-none');// tắt nút thêm nhóm
+    offPlayout('btnAddGroup','display-none',0);// tắt nút thêm nhóm
 
 }
 
@@ -305,10 +304,8 @@ function displayFrameChat(node){
     // hiển thị khung chat cho người được chọn
     //
     //
-    //
 
     // set input message gửi đến ai 
-    //
     //
     //
     chatbox[0].setAttribute("class","chatBox display");
@@ -316,10 +313,12 @@ function displayFrameChat(node){
     //tắt nút thêm nhóm
     offPlayout('btnAddGroup','display-none');
      //tự động cuộn xuống nội dung mới 
-     boxChat.scrollTop = boxChat.scrollHeight;
- 
-}
 
+     console.log("1"+boxChat[0].scrollTop);
+
+     boxChat[0].scrollTop = boxChat[0].scrollHeight;
+    console.log("2"+boxChat[0].scrollTop);
+}
 
 /*******************************************************************/
 
@@ -335,7 +334,6 @@ function offDislayChat(){
     
 }
 
-
 // hàm hiển thị thông tin group hoặc friend
 function onDisplayInfor(){
 
@@ -346,13 +344,11 @@ function onDisplayInfor(){
     //     document.getElementsByClassName("displayInfor")[0].style.visibility= "hidden";
     // }
 }
-
-const selectFormUpdate=document.getElementsByClassName("fromUpdate");
-
-
+const selectOverlay =document.getElementsByClassName('overlay');
 //Hiển thị form cập nhật
 function onDisplayFormUpdate(){
         var formUpdate = selectFormUpdate;
+        var overlay =selectOverlay;
         formUpdate[0].style.display="grid";
         //set thông tin
         
@@ -362,23 +358,34 @@ function onDisplayFormUpdate(){
         document.getElementsByName('age')[0].setAttribute("placeholder",userInfor.age);
         document.getElementById("female").setAttribute("checked","checked");
 
-        document.getElementById('overlay').style.display='block';
+        overlay[0].style.display='block';
 
 }
 
 function offDisplayFormUpdate(){
+    var overlay =selectOverlay;
+
     document.getElementsByClassName("fromUpdate")[0].style.display="none";
-    document.getElementById('overlay').style.display='none';
+    overlay[0].style.display='none';
 }
 //hàm hiển thị playout ẩn
-function onDisplayPlayout(idPlayout,classDel){
+function onDisplayPlayout(idPlayout,classDel,zIndex){
+    var overlay =selectOverlay;
     var a = document.getElementById(idPlayout).getAttribute("class");
     a =  a.replace(classDel,"");
     document.getElementById(idPlayout).setAttribute("class",a);
+
+    if(zIndex===1)overlay[0].style.display='block';
+
 }
 // tắt playout
 function offPlayout(idPlayout,classInsert){
+    var overlay =selectOverlay;
+
     var a = document.getElementById(idPlayout).getAttribute("class"); 
+    // tìm không thấy thì + class display-none
     if(a.search(classInsert)==(-1))
     document.getElementById(idPlayout).setAttribute("class",a+classInsert); 
+    
+    overlay[0].style.display='none';
 }

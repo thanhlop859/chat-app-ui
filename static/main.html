@@ -22,12 +22,12 @@
 <body onload="scriptDisplay()">
     <div id="root">
         <!--Lớp làm mờ-->
-        <div id="overlay" style=" display: none"></div>
+        <div class="overlay" style=" display: none"></div>
         <!--Cảnh báo-->
         <div id="warn-box" class="box-hidden warn display-none">
             <div>Bạn muốn đăng xuất tài khoản này</div>
             <div>
-                <button class="cancelbtn" onclick="offPlayout('warn-box','display-none')">Hủy</button>
+                <button class="cancelbtn" onclick="offPlayout('warn-box','display-none',1)">Hủy</button>
                 <button class='ok'>Đồng ý</button>
             </div>
 
@@ -50,7 +50,7 @@
                     </ul>
                     <!--Nút Thêm Nhóm-->
                     <div id="btnAddGroup" class="display-none">
-                        <button class="btn_Menu" onclick="onDisplayPlayout('frmAddGroup','display-none')"><i
+                        <button class="btn_Menu" onclick="onDisplayPlayout('frmAddGroup','display-none',1)"><i
                                 class="fas fa-plus"></i></button>
                     </div>
                     <!-- end -->
@@ -64,7 +64,7 @@
                         <div class="info" id="myGender"></div>
                         <div class="info" id="myEmail"></div>
                         <div class="info"><button onclick="onDisplayFormUpdate()">Chỉnh sửa thông tin</button></div>
-                        <div class="info"><button onclick="onDisplayPlayout('warn-box','display-none')">Đăng
+                        <div class="info"><button onclick="onDisplayPlayout('warn-box','display-none',1)">Đăng
                                 xuất</button></div>
                     </div>
                 </div>
@@ -88,14 +88,14 @@
                 </div>
             </div>
             <!-- Khung thêm nhóm chat -->
-            <div class="box-hidden display-none" id="frmaddGroup">
+            <div class="box-hidden display-none" id="frmAddGroup">
                 <form action="">
                     <h2>Tạo nhóm chat</h2>
                     <label for="">Tên nhóm:</label>
                     <input type="text" name="nameGroup" id="" placeholder="Tên nhóm">
 
                     <hr>
-                    <button class="cancelbtn" onclick="offPlayout('frmAddGroup','display-none')">Hủy</button>
+                    <button class="cancelbtn" onclick="offPlayout('frmAddGroup','display-none',1)">Hủy</button>
                     <button type="submit" class="ok">Xong</button>
                     <hr>
                 </form>
@@ -107,26 +107,28 @@
                 <form action="#" style="border:1px solid #ccc">
                     <div class="wrap">
                         <h2>Chỉnh sửa thông tin</h2>
-                        <hr>
 
                         <label for="username"><b>Tên tài khoản</b>
-                            <input type="text" placeholder="username" name="username" required>
                         </label>
-
+                        <input type="text" placeholder="username" name="username" required>
 
                         <br>
-                        <label for="email"><b>Địa chỉ Email</b>
-                            <input type="text" placeholder="Enter Email" name="email" required>
 
+                    
+                        <label for="email"><b>Địa chỉ Email</b>
                         </label>
+                        <input type="text" placeholder="Enter Email" name="email" required>
+
                         <br>
 
 
                         <label for="email"><b>Tuổi hiện tại</b>
-                            <input type="text" placeholder="tuổi hiện tại" name="age" required>
                         </label>
+                        <input type="text" placeholder="tuổi hiện tại" name="age" required>
 
                         <br>
+
+                        
                         <label for="psw-repeat"><b>Password</b>
                             <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
                         </label>
@@ -137,7 +139,6 @@
                         <label for="male">Nam</label>
                         <input type="radio" id="female" name="gender" value="female">
                         <label for="female">Nữ</label><br>
-                        <hr>
                         <div class="clearfix">
                             <button type="button" class="cancelbtn" onclick="offDisplayFormUpdate()">Hủy</button>
                             <button type="submit" class="ok">Cập nhật</button>
@@ -149,7 +150,7 @@
             <!-- hiển thị thông tin ban chát -->
             <div id="inforFriend" class="form-info-friend display-none">
 
-                <button onclick="offPlayout('inforFriend','display-none')">
+                <button onclick="offPlayout('inforFriend','display-none',1)">
                     <i class="fas fa-arrow-left"></i>
                 </button>
                 <div class="">
@@ -165,7 +166,7 @@
                 <div class="headerBox">
                     <button class="iconBox" onclick="offDislayChat()"><i class="fas fa-arrow-left"></i></button>
                     <div class="title-box">Chọn bạn để chat</div>
-                    <button class="iconBox infor" onmousedown="onDisplayPlayout('inforFriend','display-none')"">
+                    <button class="iconBox infor" onmousedown="onDisplayPlayout('inforFriend','display-none',1)"">
                         <i class=" fas fa-ellipsis-h"></i>
 
                     </button>
@@ -173,57 +174,16 @@
                 <!-- khung hiển thị tin nhắn  -->
                 <div class="wrap-box-chat">
                     <div class="box-chat">
-                        <div class="stl_mes send">
-                            <div></div>
-                            <span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla
-                                et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis
-                                dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus
-                                vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in
-                                odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis
-                                dictum nisi, sed ullamcorper ipsum dignissim ac. In at libero sed nunc venenatis
-                                imperdiet sed ornare turpis. Donec vitae dui eget tellus gravida venenatis. Integer
-                                fringilla congue eros non fermentum. Sed dapibus pulvinar nibh tempor porta. Cras ac leo
-                                purus. Mauris quis
-                                <br>
-                                <span>Lê Duy Thanh</span>
-                            </span>
-                        </div>
-                        <div class="stl_mes receive">
-                            <div></div>
-                            <span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla
-                                et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis
-                                dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus
-                                vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in
-                                odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis
-                                dictum nisi, sed ullamcorper ipsum dignissim ac. In at libero sed nunc venenatis
-                                imperdiet sed ornare turpis. Donec vitae dui eget tellus gravida venenatis. Integer
-                                fringilla congue eros non fermentum. Sed dapibus pulvinar nibh tempor porta. Cras ac leo
-                                purus. Mauris quis</span>
-
-                        </div>
-                        <div class="stl_mes send">
-                            <div></div>
-                            <span> Tin Nhắn</span>
-                        </div>
-                        <div class="stl_mes recieve">
-                            <div></div>
-                            <span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla
-                                et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis
-                                dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus
-                                vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in
-                                odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis
-                                dictum nisi, sed ullamcorper ipsum dignissim ac. In at libero sed nunc venenatis
-                                imperdiet sed ornare turpis. Donec vitae dui eget tellus gravida venenatis. Integer
-                                fringilla congue eros non fermentum. Sed dapibus pulvinar nibh tempor porta. Cras ac leo
-                                purus. Mauris quis</span>
-                        </div>
+                        <!-- danh sách tin nhắn sẽ chèn vào đây -->
                     </div>
                 </div>
                 <div class="input-box">
                     <div class="custum">
-                        <label for="file">
-                            <input type="file" name="file" id="file">
+                        <label for="upload-file">
+                            <span style="border: solid 0.1rem #aaa;"> <i class="far fa-folder-open"></i>
+                            </span>
                         </label>
+                        <input type="file" name="file" id="upload-file" >
 
                     </div>
                     <div>
