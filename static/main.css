@@ -347,7 +347,7 @@ button:hover {
     height: 3rem;
 }
 /*  khung hiển thị tin nhắn   */
-#box-chat{
+.box-chat{
     width: 100%;
     height: 100%;
     overflow: scroll;
@@ -355,13 +355,13 @@ button:hover {
     flex-direction: column;
     background-color: #fff;
 }
-#box-chat >div{
+.box-chat >div{
     display: flex;
 }
 .send div{
     flex-grow: 1;
 }
-.stl_mes  span{
+.stl_mes  >span{
     max-width: 50%;
     border-radius: 1rem;
     border: 0.1rem solid #ddd;

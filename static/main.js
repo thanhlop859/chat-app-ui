@@ -1,4 +1,40 @@
-const url = "https://chatapp-kkt.herokuapp.com/users/"
+const url = "https://chatapp-kkt.herokuapp.com"
+const authen = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZXIiLCJleHAiOjE2MDYxNTUzMTh9.xtNVWlOhX18xqXEKKkl9C5pN0sZ2wc86_opctJlokcvMDXZsqFcdoD9FcmnAGe3s7qM0k3yWXgD2yRiF7oWI0w";
+
+getCookie();
+function getCookie() {
+    $.ajax({
+       type: "POST",
+       url: url+"/auth",
+       async: false,
+       data: "email=tester&password=tester",
+       dataType:"text",
+       success: function(data) {
+          //alert(data);
+       },
+       error: () =>{
+          alert("Incorrect email or password!");
+       }
+    });
+}
+getData();
+var user ;
+function getData(){
+    $.ajax({
+        url:url+"/users/tester1",
+        type:"GET",
+        headers:{Authorization:"Bearer "+ authen},
+        dataType:"text",
+        success: function(res) {
+            user = JSON.parse(res);
+            //console.log(user);
+
+        },
+         error: () =>{
+            alert("Incorrect!");
+         }
+    });
+}
 
 var userInfor = 
     {
@@ -36,24 +72,6 @@ var userInfor =
         },{
             email: "kazz@gmail.com",
             username: "Huỳnh Tấn Đức"
-        },{
-            email: "kazz@gmail.com",
-            username: "Huỳnh Tấn Đức"
-        },{
-            email: "kazz@gmail.com",
-            username: "Huỳnh Tấn Đức"
-        },{
-            email: "kazz@gmail.com",
-            username: "Huỳnh Tấn Đức"
-        },{
-            email: "kazz@gmail.com",
-            username: "Huỳnh Tấn Đức"
-        },{
-            email: "kazz@gmail.com",
-            username: "Huỳnh Tấn Đức"
-        },{
-            email: "kazz@gmail.com",
-            username: "Huỳnh Tấn Đức"
         }],
         group:[{
             groupId: "001",
@@ -76,7 +94,7 @@ var userInfor =
 };
 var listChatting=[
     {
-        chatId:"002",
+        chatId:"001",
         titleChat:"Le duy thanh", // ten người chat hoặc nhóm đang chat
         message:[
             {
@@ -89,37 +107,73 @@ var listChatting=[
                 nameSender:"Đình Vũ",
                 email:"kazz@gmail.com", //đại diện người gửi
                 status:'1',
-                content:'Tin nhan tu vu'
+                content:'Tin gửi '
             },
             {   
                 nameSender:"Đình Vũ",
                 email:"kazz@gmail.com", //đại diện người gửi
                 status:'0',
-                content:'tinh nhan tu dinh vu'
+                content:'tin nhận tu dinh vu'
+            },
+            {
+                email:"kazz@gmail.com", //đại diện người gửi
+                nameSender:"Đình Vũ",
+                status:'1',//status : trang thai của tin nhắn 0 là gửi 1 là nhận
+                content:"Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittisdictum nisi"
+            },
+            {
+                nameSender:"Đình Vũ",
+                email:"kazz@gmail.com", //đại diện người gửi
+                status:'1',
+                content:'Tin gửi '
+            },
+            {   
+                nameSender:"Đình Vũ",
+                email:"kazz@gmail.com", //đại diện người gửi
+                status:'0',
+                content:'tin nhận tu dinh vu'
             }
         ]
     },
     {
-        chatId:'001',
+        chatId:'002',
         titleChat:"nhóm 1 ",
         message:[
             {
                 email:"kazz@gmail.com", //đại diện người gửi
                 nameSender:"Đình Vũ",
                 status:'1',//status : trang thai của tin nhắn 0 là gửi 1 là nhận
-                content:'a'
+                content:'Tin nhắn của ban'
             },
             {
                 nameSender:"Đình Vũ",
                 email:"kazz@gmail.com", //đại diện người gửi
-                status:'1',
-                content:'a'
+                status:'0',
+                content:'Tin nhắn của thành viên'
             },
             {   
                 nameSender:"Đình Vũ",
                 email:"kazz@gmail.com", //đại diện người gửi
                 status:'0',
-                content:'a'
+                content:'Tin nhắn của thành viên'
+            },
+            {
+                email:"kazz@gmail.com", //đại diện người gửi
+                nameSender:"Đình Vũ",
+                status:'1',//status : trang thai của tin nhắn 0 là gửi 1 là nhận
+                content:'Tin nhắn của ban'
+            },
+            {
+                nameSender:"Đình Vũ",
+                email:"kazz@gmail.com", //đại diện người gửi
+                status:'0',
+                content:'Tin nhắn của thành viên'
+            },
+            {   
+                nameSender:"Đình Vũ",
+                email:"kazz@gmail.com", //đại diện người gửi
+                status:'0',
+                content:'Tin nhắn của thành viên'
             }
         ]
     }
@@ -143,6 +197,7 @@ const selectListFriend = document.getElementsByClassName("list-friend");
 const selectBoxInfoUser =document.getElementsByClassName("box-info-user");
 const selectChatBox = document.getElementsByClassName("chatBox");
 const selectTitleBox=document.getElementsByClassName("title-box");
+const selectBoxChat =document.getElementsByClassName('box-chat');
 
 //hàm hiển thị danh sách bạn
 function boxMenu(ds){
@@ -169,7 +224,7 @@ function displayListFriend(){
 // hiển thị danh sách bạn đang chat 
 function onDisplayListChat(){
     var s = listChatting.map(x =>{
-        return `<li class='friend' onclick="friendOnClick(this)"><div class='picture'></div><div class='nameFriend'>${x.titleChat}</div></li>` 
+        return `<li class='friend' onclick="friendOnClick(this)" id="${x.chatId}"><div class='picture'></div><div class='nameFriend'>${x.titleChat}</div></li>` 
     });
     var ds =s.join('');
     boxMenu(ds);   
@@ -229,20 +284,23 @@ function friendOnClick(nodeFriend){
 function displayFrameChat(node){
     var chatbox = selectChatBox;
     var id =node.getAttribute("id");
-    var boxChat = document.getElementById('box-chat');
+    var boxChat = selectBoxChat;
     var titleBox = selectTitleBox;
     //lấy thông tin của bạn
-    //var inforFriend =  httpGet(url+"users/"+id);
 
-    var inforFriend ={
-        email:"hai@gmail.com",          //dữu liệu demo
-            username: "Lê Đinh Vũ"
-    }
-    // hiển thị tên người đang chat 
-
+    //dat lai hien thi khung chat
+    boxChat[0].innerHTML="";
+    // search id chat
+    var chatz =listChatting.find(x=>x.chatId===id);
+    console.log(chatz);
     // điền tin nhắn vào khung     
-    titleBox[0].innerText= listChatting[0].titleChat;
-    listChatting[1].message.forEach(x=>boxChat.innerHTML += `<div class="stl_mes send"><div></div><span>`+ x.content+`</span></div>`);
+    titleBox[0].innerText= chatz.titleChat;
+    chatz.message.forEach(x=>{
+        if (x.status==='1')  boxChat[0].innerHTML += `<div class="stl_mes send" ><div></div><span>`+ x.content+`</span></div>`;
+        else {
+            boxChat[0].innerHTML += `<div class="stl_mes recieve"><span>`+ x.content+`</span></div><div></div>`;
+        }
+    });
    
     // hiển thị khung chat cho người được chọn
     //
@@ -267,10 +325,14 @@ function displayFrameChat(node){
 
 // hàm đóng khung chat lại
 function offDislayChat(){
+    var  boxChat = selectBoxChat;
+    
     var chatBox = selectChatBox;
     var titleBox = selectTitleBox;
     chatBox[0].setAttribute("class","chatBox");
     titleBox[0].innerText="Chọn bạn để chat";
+    boxChat[0].innerHTML ="";
+    
 }
 
 

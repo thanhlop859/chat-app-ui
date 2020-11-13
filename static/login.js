@@ -11,6 +11,7 @@ loginForm.addEventListener('submit', e => {
          data: $('#login-form').serialize(),
          success: function() {
             window.open("./static/main.html","_self");
+            alert("aaa");
          },
          error: () =>{
             alert("Incorrect email or password!");
