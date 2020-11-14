@@ -36,7 +36,7 @@ body{
     padding: 0.3rem;
 }
 
-.navLink {
+.flex-grow-1 {
     flex-grow: 1;
 }
 

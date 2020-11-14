@@ -9,9 +9,10 @@ loginForm.addEventListener('submit', e => {
          type: "POST",
          url: url,
          data: $('#login-form').serialize(),
-         success: function() {
-            window.open("./static/main.html","_self");
-            alert("aaa");
+         success: function(output,status,res) {
+            
+            if (output==="")window.open("./static/main.html","_self")
+            else alert("sai thong tin");
          },
          error: () =>{
             alert("Incorrect email or password!");

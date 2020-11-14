@@ -1,33 +1,37 @@
 const url = "https://chatapp-kkt.herokuapp.com"
-const authen = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZXIiLCJleHAiOjE2MDYxNTUzMTh9.xtNVWlOhX18xqXEKKkl9C5pN0sZ2wc86_opctJlokcvMDXZsqFcdoD9FcmnAGe3s7qM0k3yWXgD2yRiF7oWI0w";
-
+var author;
 getCookie();
 function getCookie() {
     $.ajax({
        type: "POST",
        url: url+"/auth",
        async: false,
-       data: "email=tester&password=tester",
-       dataType:"text",
-       success: function(data) {
-          //alert(data);
+       data: "email=tester1&password=tester1",
+       xhrFields:{
+            withCredentials:true
        },
+       dataType:"text",
+       success: function(output,status,res) {
+        author =res.getResponseHeader("Authorization");
+        getData('/users/tester');
+       }, 
        error: () =>{
           alert("Incorrect email or password!");
        }
     });
 }
-getData();
+
+
 var user ;
-function getData(){
+function getData(urlget){
     $.ajax({
-        url:url+"/users/tester1",
+        url:url+urlget,
         type:"GET",
-        headers:{Authorization:"Bearer "+ authen},
+        headers:{Authorization:author},
         dataType:"text",
         success: function(res) {
             user = JSON.parse(res);
-            //console.log(user);
+            console.log(user);
 
         },
          error: () =>{
@@ -47,19 +51,19 @@ var userInfor =
         role:"user",
         friend:[{
             email:"hai@gmail.com",
-            username: "Lê Đinh Vũ"
+            username: "Đinh Vũ"
         },{
-            email:"hai@gmail.com",
-            username: "Lê Đinh Vũ"
+            email:"binz@.gmail.com",
+            username: "Nguyễn Đan"
         },{
-            email:"hai@gmail.com",
-            username: "Lê Đinh Vũ"
+            email:"TinHX@gmail.com",
+            username: "Huy Đinh"
         },{
-            email:"hai@gmail.com",
-            username: "Lê Đinh Vũ"
+            email:"amen@gmail.com",
+            username: "Vũ Khắc Tường"
         },{
-            email:"hai@gmail.com",
-            username: "Lê Đinh Vũ"
+            email:"hiNam@gmail.com",
+            username: "Lê Vũ Nam"
         }, {
             email: "ak@gmail.com",
             username: "Trần Tấn Tài"
@@ -67,11 +71,11 @@ var userInfor =
             email: "kazz@gmail.com",
             username: "Huỳnh Tấn Đức"
         },{
-            email: "kazz@gmail.com",
-            username: "Huỳnh Tấn Đức"
+            email: "trung@gmail.com",
+            username: "Huỳnh Đức Trung"
         },{
-            email: "kazz@gmail.com",
-            username: "Huỳnh Tấn Đức"
+            email: "lozen@gmail.com",
+            username: "Huỳnh Đức Trâu"
         }],
         group:[{
             groupId: "001",
@@ -87,7 +91,7 @@ var userInfor =
                 username: "Trần Tài Quang"
             },{
                 email:"tduc@gmail.com",
-                username: "Huỳnh KHấn Đức"
+                username: "Huỳnh đa Đức"
             }
         ],
         acceptFriendRequest:[]
@@ -193,9 +197,12 @@ const selectChatBox = document.getElementsByClassName("chatBox");
 const selectTitleBox=document.getElementsByClassName("title-box");
 const selectBoxChat =document.getElementsByClassName('box-chat');
 const selectFormUpdate=document.getElementsByClassName("fromUpdate");
+const selectFriend = document.getElementsByClassName('friend');
+
+
 // đợi tài liệu load và hiển thị danh sách bạn 
 function scriptDisplay(){
-    onDisplayListChat();
+  onDisplayListChat();
 }
 
 //hàm hiển thị danh sách bạn
@@ -222,10 +229,11 @@ function displayListFriend(){
 
 // hiển thị danh sách bạn đang chat 
 function onDisplayListChat(){
-    var s = listChatting.map(x =>{
+    var ds = listChatting;
+    var s = ds.map(x =>{
         return `<li class='friend' onclick="friendOnClick(this)" id="${x.chatId}"><div class='picture'></div><div class='nameFriend'>${x.titleChat}</div></li>` 
     });
-    var ds =s.join('');
+     ds =s.join('');
     boxMenu(ds);   
 }
 // hiển thị danh sách nhóm đã join
@@ -265,12 +273,11 @@ function displayProfile(){
 }
 
 /****************************************************************** */
-
 // đăt lại trạng thái fucus
 function friendOnClick(nodeFriend){
-    var friendElements = document.getElementsByClassName('friend');
-    for(var i= 0;i< friendElements.length;i++){
-        friendElements[i].setAttribute("class",'friend');
+    var friend = selectFriend;
+    for(var i= 0;i< friend.length;i++){
+        friend[i].setAttribute("class",'friend');
     }
     nodeFriend.setAttribute("class","friend active");
 
@@ -286,15 +293,24 @@ function displayFrameChat(node){
     var boxChat = selectBoxChat;
     var titleBox = selectTitleBox;
     //lấy thông tin của bạn
-
     //dat lai hien thi khung chat
     boxChat[0].innerHTML="";
-    // search id chat
-    var chatz =listChatting.find(x=>x.chatId===id);
-    console.log(chatz);
+
+    // search danh sach chat co được tạo chưa
+    var haveExist =listChatting.find(x=>x.chatId===id);
+    // Nếu chưa thì tạo mới
+    if (haveExist ==undefined){
+        var objFriend = userInfor.friend.find(x=>x.email=== id);
+        listChatting.push({
+            chatId:objFriend.email,
+            titleChat:objFriend.username,
+            message:[]
+        });
+         haveExist= listChatting[listChatting.length-1]; 
+    };
     // điền tin nhắn vào khung     
-    titleBox[0].innerText= chatz.titleChat;
-    chatz.message.forEach(x=>{
+    titleBox[0].innerText= haveExist.titleChat;
+    haveExist.message.forEach(x=>{
         if (x.status==='1')  boxChat[0].innerHTML += `<div class="stl_mes send" ><div></div><span>`+ x.content+`</span></div>`;
         else {
             boxChat[0].innerHTML += `<div class="stl_mes recieve"><span>`+ x.content+`</span></div><div></div>`;
@@ -312,12 +328,9 @@ function displayFrameChat(node){
 
     //tắt nút thêm nhóm
     offPlayout('btnAddGroup','display-none');
+
      //tự động cuộn xuống nội dung mới 
-
-     console.log("1"+boxChat[0].scrollTop);
-
      boxChat[0].scrollTop = boxChat[0].scrollHeight;
-    console.log("2"+boxChat[0].scrollTop);
 }
 
 /*******************************************************************/

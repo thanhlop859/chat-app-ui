@@ -89,7 +89,7 @@
             </div>
             <!-- Khung thêm nhóm chat -->
             <div class="box-hidden display-none" id="frmAddGroup">
-                <form action="">
+                <form method="POST" id="id-add-group">
                     <h2>Tạo nhóm chat</h2>
                     <label for="">Tên nhóm:</label>
                     <input type="text" name="nameGroup" id="" placeholder="Tên nhóm">
@@ -104,7 +104,7 @@
 
             <!--khung chỉnh sửa thông tin người dùng-->
             <div class="box-hidden fromUpdate" style="display: none">
-                <form action="#" style="border:1px solid #ccc">
+                <form style="border:1px solid #ccc" method="POST" id="id-frm-updata-info">
                     <div class="wrap">
                         <h2>Chỉnh sửa thông tin</h2>
 
@@ -203,7 +203,7 @@
                     </div>
                     <div>Version: 1.0.0</div>
                 </div>
-                <div class="navLink">
+                <div class="flex-grow-1">
                 </div>
             </nav>
         </div>
