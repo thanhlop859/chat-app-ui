@@ -15,8 +15,6 @@
         const x = screen.height + "px";
     </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="main.js"></script>
 </head>
 
 <body onload="scriptDisplay()">
@@ -41,7 +39,9 @@
                 </div>
                 <!-- thanh search  -->
                 <div class="search-box">
-                    <input type="text" placeholder="Tìm kiếm bạn bè"></input>
+                    <form method="post" id="id-search-friend">
+                        <input type="text" placeholder="Tìm kiếm bạn bè" name="email"></input>
+                    </form>
                 </div>
                 <!--Hiển thị danh sách-->
                 <div class="box-list">
@@ -89,10 +89,10 @@
             </div>
             <!-- Khung thêm nhóm chat -->
             <div class="box-hidden display-none" id="frmAddGroup">
-                <form method="POST" id="id-add-group">
+                <form id="id-add-group">
                     <h2>Tạo nhóm chat</h2>
                     <label for="">Tên nhóm:</label>
-                    <input type="text" name="nameGroup" id="" placeholder="Tên nhóm">
+                    <input type="text" name="groupName" id="" placeholder="Tên nhóm">
 
                     <hr>
                     <button class="cancelbtn" onclick="offPlayout('frmAddGroup','display-none',1)">Hủy</button>
@@ -102,51 +102,6 @@
             </div>
             <!-- end -->
 
-            <!--khung chỉnh sửa thông tin người dùng-->
-            <div class="box-hidden fromUpdate" style="display: none">
-                <form style="border:1px solid #ccc" method="POST" id="id-frm-updata-info">
-                    <div class="wrap">
-                        <h2>Chỉnh sửa thông tin</h2>
-
-                        <label for="username"><b>Tên tài khoản</b>
-                        </label>
-                        <input type="text" placeholder="username" name="username" required>
-
-                        <br>
-
-                    
-                        <label for="email"><b>Địa chỉ Email</b>
-                        </label>
-                        <input type="text" placeholder="Enter Email" name="email" required>
-
-                        <br>
-
-
-                        <label for="email"><b>Tuổi hiện tại</b>
-                        </label>
-                        <input type="text" placeholder="tuổi hiện tại" name="age" required>
-
-                        <br>
-
-                        
-                        <label for="psw-repeat"><b>Password</b>
-                            <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-                        </label>
-                        <br>
-
-                        <label for="radio"> Giới tính:</label>
-                        <input type="radio" id="male" checked="" name="gender" value="male">
-                        <label for="male">Nam</label>
-                        <input type="radio" id="female" name="gender" value="female">
-                        <label for="female">Nữ</label><br>
-                        <div class="clearfix">
-                            <button type="button" class="cancelbtn" onclick="offDisplayFormUpdate()">Hủy</button>
-                            <button type="submit" class="ok">Cập nhật</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <!-- end  -->
             <!-- hiển thị thông tin ban chát -->
             <div id="inforFriend" class="form-info-friend display-none">
 
@@ -208,7 +163,51 @@
             </nav>
         </div>
         <!-- end-NAV-search -->
+         <!--khung chỉnh sửa thông tin người dùng-->
+         <div class="box-hidden fromUpdate" style="display: none">
+            <form style="border:1px solid #ccc" method="POST" id="id-frm-updata-info">
+                <div class="wrap">
+                    <h2>Chỉnh sửa thông tin</h2>
 
+                    <label for="username"><b>Tên tài khoản</b>
+                    </label>
+                    <input type="text" placeholder="username" name="username" required>
+
+                    <br>
+
+                
+                    <label for="email"><b>Địa chỉ Email</b>
+                    </label>
+                    <input type="text" placeholder="Enter Email" name="email" required>
+
+                    <br>
+
+
+                    <label for="email"><b>Tuổi hiện tại</b>
+                    </label>
+                    <input type="text" placeholder="tuổi hiện tại" name="age" required>
+
+                    <br>
+
+                    
+                    <label for="psw-repeat"><b>Password</b>
+                        <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+                    </label>
+                    <br>
+
+                    <label for="radio"> Giới tính:</label>
+                    <input type="radio" id="male" checked="" name="gender" value="male">
+                    <label for="male">Nam</label>
+                    <input type="radio" id="female" name="gender" value="female">
+                    <label for="female">Nữ</label><br>
+                    <div class="clearfix">
+                        <button type="button" class="cancelbtn" onclick="offDisplayFormUpdate()">Hủy</button>
+                        <button type="submit" class="ok">Cập nhật</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- end  -->
     </div>
     <!--Boostrap-->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -218,7 +217,10 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
     </script>
     <!-- Main js -->
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="main.js"></script>
+
 </body>
 
 </html>

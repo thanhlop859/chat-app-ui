@@ -96,6 +96,9 @@ var userInfor =
         ],
         acceptFriendRequest:[]
 };
+
+
+
 var listChatting=[
     {
         chatId:"001",
@@ -198,7 +201,12 @@ const selectTitleBox=document.getElementsByClassName("title-box");
 const selectBoxChat =document.getElementsByClassName('box-chat');
 const selectFormUpdate=document.getElementsByClassName("fromUpdate");
 const selectFriend = document.getElementsByClassName('friend');
+const selectOverlay =document.getElementsByClassName('overlay');
+const selectIdFrmAddGroup = document.getElementById('id-add-group');
+const selectIdFrmUpdateInfo = document.getElementById('id-frm-updata-info');
+const selectIdSearchFriend = document.getElementById('id-search-friend');
 
+/************************************************************************** */
 
 // đợi tài liệu load và hiển thị danh sách bạn 
 function scriptDisplay(){
@@ -207,8 +215,8 @@ function scriptDisplay(){
 
 //hàm hiển thị danh sách bạn
 function boxMenu(ds){
-    var listfriend =selectListFriend;
-    var boxInfoUser = selectBoxInfoUser;
+    let listfriend =selectListFriend;
+    let boxInfoUser = selectBoxInfoUser;
     
     listfriend[0].style.display="grid";
     boxInfoUser[0].style.display ="none";
@@ -218,10 +226,10 @@ function displayListFriend(){
     
 
     //create list friend
-    var s = userInfor.friend.map(x =>{
-        return `<li class='friend' onclick="friendOnClick(this)" id="`+ x.email+`"><div class='picture'></div><div class='nameFriend'>${x.username}</div></li>` 
+    let listHTML = userInfor.friend.map(x =>{
+        return `<li class='friend' onclick="friendOnClick(this)" id="`+ x.email+`"><div class='picture'></div><div class='nameFriend'>${x.username}</div><button class="cancel"><i class="far fa-times-circle"></i></button></li>` 
     });
-    var ds =s.join('');
+    var ds =listHTML.join('');
     boxMenu(ds);   
     //tắt nút thêm nhóm
     offPlayout('btnAddGroup','display-none');
@@ -229,20 +237,20 @@ function displayListFriend(){
 
 // hiển thị danh sách bạn đang chat 
 function onDisplayListChat(){
-    var ds = listChatting;
-    var s = ds.map(x =>{
+    let ds = listChatting;
+    let listHTML = ds.map(x =>{
         return `<li class='friend' onclick="friendOnClick(this)" id="${x.chatId}"><div class='picture'></div><div class='nameFriend'>${x.titleChat}</div></li>` 
     });
-     ds =s.join('');
+     ds =listHTML.join('');
     boxMenu(ds);   
 }
 // hiển thị danh sách nhóm đã join
 
 function displayListGroup(){
-    var s = userInfor.group.map(x =>{
+    let listHTML = userInfor.group.map(x =>{
         return `<li class='friend' onclick="friendOnClick(this)"><div class='picture'></div><div class='nameFriend'>${x.groupName}</div></li>` 
     });
-    var ds =s.join('');
+    var ds =listHTML.join('');
     boxMenu(ds);   
     onDisplayPlayout('btnAddGroup','display-none',0)
 }
@@ -250,19 +258,19 @@ function displayListGroup(){
 //hiển thị danh sách những yêu cầu kết bạn
 function displayListRequest(){
     //create list request
-    var s = userInfor.friendRequest.map(x =>{
-        return `<li class='friend' id="`+ x.email+`"><div class='picture'></div><div class='nameFriend'>${x.username}</div></li>` 
+    let listHTML = userInfor.friendRequest.map(x =>{
+        return `<li class='friend' id="`+ x.email+`"><div class='picture'></div><div class='nameFriend'>${x.username}</div><button class="accept"><i class="far fa-check-circle"></i></button ><button class="cancel"><i class="far fa-times-circle"></i></button></li>` 
     });
-    var ds =s.join('');
+    var ds =listHTML.join('');
     boxMenu(ds);  
     offPlayout('btnAddGroup','display-none');
 }
 // hàm hiển thị thông tin cá nhân và đăng xuất
 function displayProfile(){
-    var listFriend = selectListFriend;
+    let listFriend = selectListFriend;
     listFriend[0].style.display="none";
-    var a = selectBoxInfoUser;
-    a[0].style.display ="flex";
+    let boxInfoUser = selectBoxInfoUser;
+    boxInfoUser[0].style.display ="flex";
     document.getElementById('myName').innerText = "Tên : "+userInfor.username;
     document.getElementById('myAge').innerText = "Tuổi : "+userInfor.age;
     document.getElementById("myGender").innerText = "Giới tính : "+userInfor.gender;
@@ -275,8 +283,8 @@ function displayProfile(){
 /****************************************************************** */
 // đăt lại trạng thái fucus
 function friendOnClick(nodeFriend){
-    var friend = selectFriend;
-    for(var i= 0;i< friend.length;i++){
+    let friend = selectFriend;
+    for(let i= 0;i< friend.length;i++){
         friend[i].setAttribute("class",'friend');
     }
     nodeFriend.setAttribute("class","friend active");
@@ -288,19 +296,19 @@ function friendOnClick(nodeFriend){
 /*****************************************************************/
 // hiển thị khung chat 
 function displayFrameChat(node){
-    var chatbox = selectChatBox;
-    var id =node.getAttribute("id");
-    var boxChat = selectBoxChat;
-    var titleBox = selectTitleBox;
+    let chatbox = selectChatBox;
+    let id =node.getAttribute("id");
+    let boxChat = selectBoxChat;
+    let titleBox = selectTitleBox;
     //lấy thông tin của bạn
     //dat lai hien thi khung chat
     boxChat[0].innerHTML="";
 
     // search danh sach chat co được tạo chưa
-    var haveExist =listChatting.find(x=>x.chatId===id);
+    let haveExist =listChatting.find(x=>x.chatId===id);
     // Nếu chưa thì tạo mới
     if (haveExist ==undefined){
-        var objFriend = userInfor.friend.find(x=>x.email=== id);
+        let objFriend = userInfor.friend.find(x=>x.email=== id);
         listChatting.push({
             chatId:objFriend.email,
             titleChat:objFriend.username,
@@ -337,10 +345,10 @@ function displayFrameChat(node){
 
 // hàm đóng khung chat lại
 function offDislayChat(){
-    var  boxChat = selectBoxChat;
+    let  boxChat = selectBoxChat;
     
-    var chatBox = selectChatBox;
-    var titleBox = selectTitleBox;
+    let chatBox = selectChatBox;
+    let titleBox = selectTitleBox;
     chatBox[0].setAttribute("class","chatBox");
     titleBox[0].innerText="Chọn bạn để chat";
     boxChat[0].innerHTML ="";
@@ -357,11 +365,10 @@ function onDisplayInfor(){
     //     document.getElementsByClassName("displayInfor")[0].style.visibility= "hidden";
     // }
 }
-const selectOverlay =document.getElementsByClassName('overlay');
 //Hiển thị form cập nhật
 function onDisplayFormUpdate(){
-        var formUpdate = selectFormUpdate;
-        var overlay =selectOverlay;
+        let formUpdate = selectFormUpdate;
+        let overlay =selectOverlay;
         formUpdate[0].style.display="grid";
         //set thông tin
         
@@ -376,29 +383,73 @@ function onDisplayFormUpdate(){
 }
 
 function offDisplayFormUpdate(){
-    var overlay =selectOverlay;
+    let overlay =selectOverlay;
 
     document.getElementsByClassName("fromUpdate")[0].style.display="none";
     overlay[0].style.display='none';
 }
 //hàm hiển thị playout ẩn
 function onDisplayPlayout(idPlayout,classDel,zIndex){
-    var overlay =selectOverlay;
-    var a = document.getElementById(idPlayout).getAttribute("class");
-    a =  a.replace(classDel,"");
-    document.getElementById(idPlayout).setAttribute("class",a);
+    let overlay =selectOverlay;
+    let attributeClass = document.getElementById(idPlayout).getAttribute("class");
+    attributeClass =  attributeClass.replace(classDel,"");
+    document.getElementById(idPlayout).setAttribute("class",attributeClass);
 
     if(zIndex===1)overlay[0].style.display='block';
 
 }
 // tắt playout
 function offPlayout(idPlayout,classInsert){
-    var overlay =selectOverlay;
+    let overlay =selectOverlay;
 
-    var a = document.getElementById(idPlayout).getAttribute("class"); 
+    let attributeClass = document.getElementById(idPlayout).getAttribute("class"); 
     // tìm không thấy thì + class display-none
-    if(a.search(classInsert)==(-1))
-    document.getElementById(idPlayout).setAttribute("class",a+classInsert); 
+    if(attributeClass.search(classInsert)==(-1))
+    document.getElementById(idPlayout).setAttribute("class",attributeClass+classInsert); 
     
     overlay[0].style.display='none';
 }
+/******************************************************************************/
+// xử lí sự kiện tạo nhóm
+selectIdFrmAddGroup.addEventListener("submit",e =>{
+    e.preventDefault();
+    console.log(e.submitter);
+    // sử lí tạo nhóm
+    $.ajax({
+        url: url +"/group/create",
+        type:"POST",
+        headers:{Authorization:author},
+        data: $('#id-add-group').serialize(),
+        dataType:"text",
+        success: function(res) {
+            console.log("gửi thanh công");
+        },
+         error: () =>{
+            alert("Incorrect!");
+         }
+    });
+    //  đóng form 
+
+});
+
+// xử lí sự kiện sửa thông tin người dùng
+selectIdFrmUpdateInfo.addEventListener("submit",e =>{
+    e.preventDefault();
+    console.log(e.submitter);
+    // sử lí chính sửa thông tin
+
+        
+    
+    // đóng form 
+
+});
+
+// xử lí sự kiện search 
+// selectIdSearchFriend.addEventListener("change",e=>{
+
+// });
+
+// xử lí gửi tin nhắn 
+
+// xử lí chấp nhận yêu cầu kết bạn
+

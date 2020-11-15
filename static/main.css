@@ -195,6 +195,7 @@ body{
     right: 20%;
     width: 30%;
     height: 80%;
+    justify-content: center;
 }
 
 /*
@@ -229,7 +230,21 @@ body{
 .friend .nameFriend {
     flex-grow: 1;
 }
-
+.friend button{
+    border-radius: 50%;
+    display: block;
+    padding: 0.1rem; 
+    margin-right: 0.4rem;
+    background:none;
+}
+button.accept{
+    color: green;
+    size: 1rem;
+}
+button.cancel{
+    color: brown;
+    size: 1rem;
+}
 .active {
     background-color: #ddd;
 }
@@ -305,7 +320,8 @@ button:hover {
 .clearfix::after {
     content: "";
     clear: both;
-    display: table;
+    display: flex;
+    justify-content: center;
 }
 
 /*Nút thêm nhóm*/
