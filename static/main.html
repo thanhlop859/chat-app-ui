@@ -50,8 +50,14 @@
                     </ul>
                     <!--Nút Thêm Nhóm-->
                     <div id="btnAddGroup" class="display-none">
-                        <button class="btn_Menu" onclick="onDisplayPlayout('frmAddGroup','display-none',1)"><i
+                        <button class="btn_Menu" onclick="onDisplayPlayout('menuAdd','display-none',0)"><i
                                 class="fas fa-plus"></i></button>
+                        <div class="menu-add display-none" id="menuAdd">
+                            <button onclick="onDisplayPlayout('frmAddGroup','display-none',1)">Thêm nhóm</button>
+                            <button onclick="onDisplayPlayout('frmAddFriend','display-none',1)">Thêm bạn</button>
+                               
+                            
+                        </div>
                     </div>
                     <!-- end -->
                     <!-- form thông tin người dùng -->
@@ -95,13 +101,26 @@
                     <input type="text" name="groupName" id="" placeholder="Tên nhóm">
 
                     <hr>
-                    <button class="cancelbtn" onclick="offPlayout('frmAddGroup','display-none',1)">Hủy</button>
+                    <button class="cancelbtn" type="reset" onclick="offPlayout('frmAddGroup','display-none',1)">Hủy</button>
                     <button type="submit" class="ok">Xong</button>
                     <hr>
                 </form>
             </div>
             <!-- end -->
+             <!-- Khung thêm bạn -->
+             <div class="box-hidden display-none" id="frmAddFriend">
+                <form id="id-add-friend">
+                    <h2>Nhập email </h2>
+                    <label for="">Email:</label>
+                    <input type="text" name="friendEmail" id="" placeholder="Email">
 
+                    <hr>
+                    <button class="cancelbtn" type="reset" onclick="offPlayout('frmAddFriend','display-none',1)">Hủy</button>
+                    <button type="submit" class="ok">Xong</button>
+                    <hr>
+                </form>
+            </div>
+            <!-- end -->
             <!-- hiển thị thông tin ban chát -->
             <div id="inforFriend" class="form-info-friend display-none">
 

@@ -6,14 +6,14 @@ function getCookie() {
        type: "POST",
        url: url+"/auth",
        async: false,
-       data: "email=thanhlop859@gmail.com&password=12345",
+       data: "email=tester&password=tester",
        xhrFields:{
             withCredentials:true
        },
        dataType:"text",
        success: function(output,status,res) {
         author =res.getResponseHeader("Authorization");
-        getData('/users/thanhlop859@gmail.com');
+        getData('/users/tester');
        }, 
        error: () =>{
           alert("Incorrect email or password!");
@@ -27,6 +27,7 @@ function getData(urlget){
     $.ajax({
         url:url+urlget,
         type:"GET",
+        async:false,
         headers:{Authorization:author},
         dataType:"text",
         success: function(res) {
@@ -43,7 +44,7 @@ function getData(urlget){
 var userInfor = 
     {
         id: "001",
-        email: "thanhlop859@gmail.com",
+        email: "tester",
         password:  "*****",
         age: 21,
         gender: 1,
@@ -205,7 +206,7 @@ const selectOverlay =document.getElementsByClassName('overlay');
 const selectIdFrmAddGroup = document.getElementById('id-add-group');
 const selectIdFrmUpdateInfo = document.getElementById('id-frm-updata-info');
 const selectIdSearchFriend = document.getElementById('id-search-friend');
-
+const selectIdFrmAddFriend = document.getElementById("id-add-friend");
 /************************************************************************** */
 
 // đợi tài liệu load và hiển thị danh sách bạn 
@@ -224,13 +225,14 @@ function boxMenu(ds){
 }
 function displayListFriend(){
     
-
-    //create list friend
-    let listHTML = userInfor.friend.map(x =>{
-        return `<li class='friend' onclick="friendOnClick(this)" id="`+ x.email+`"><div class='picture'></div><div class='nameFriend'>${x.username}</div><button class="cancel"><i class="far fa-times-circle"></i></button></li>` 
-    });
-    var ds =listHTML.join('');
-    boxMenu(ds);   
+    let keyFriend = Object.keys(user.friend);
+    
+    // danh sách bạn
+    let listHTML='';
+    keyFriend.forEach(e=>listHTML += `<li class='friend' onclick="friendOnClick(this)" id="${e}"><div class='picture'></div><div class='nameFriend'>${user.friend[e]}</div><button class="cancel"><i class="far fa-times-circle"></i></button></li>`
+    );
+    
+    boxMenu(listHTML);   
     //tắt nút thêm nhóm
     offPlayout('btnAddGroup','display-none');
 }
@@ -247,11 +249,12 @@ function onDisplayListChat(){
 // hiển thị danh sách nhóm đã join
 
 function displayListGroup(){
-    let listHTML = userInfor.group.map(x =>{
-        return `<li class='friend' onclick="friendOnClick(this)"><div class='picture'></div><div class='nameFriend'>${x.groupName}</div></li>` 
-    });
-    var ds =listHTML.join('');
-    boxMenu(ds);   
+    let keyGroup = Object.keys(user.group);
+    
+    let listHTML=''; 
+    keyGroup.forEach(function(e,i){listHTML += `<li class='friend' ondblclick="friendOnClick(this)" id="${i}"><div class='picture'></div><div class='nameFriend'>${user.group[e]}</div> <button class="cancel" onclick="deleteGroup(this)" id=${i}><i class="far fa-times-circle"></i></button></li>`});
+    
+    boxMenu(listHTML);   
     onDisplayPlayout('btnAddGroup','display-none',0)
 }
 
@@ -259,7 +262,7 @@ function displayListGroup(){
 function displayListRequest(){
     //create list request
     let listHTML = userInfor.friendRequest.map(x =>{
-        return `<li class='friend' id="`+ x.email+`"><div class='picture'></div><div class='nameFriend'>${x.username}</div><button class="accept"><i class="far fa-check-circle"></i></button ><button class="cancel"><i class="far fa-times-circle"></i></button></li>` 
+        return `<li class='friend'><div class='picture'></div><div class='nameFriend'>${x.username}</div><button class="accept" onclick="acceptRequest(this) id="`+ x.email+`"><i class="far fa-check-circle"></i></button ><button class="cancel"><i class="far fa-times-circle"></i></button></li>` 
     });
     var ds =listHTML.join('');
     boxMenu(ds);  
@@ -424,7 +427,7 @@ selectIdFrmAddGroup.addEventListener("submit",e =>{
         data: a,
         dataType:"text",
         success: function(res) {
-            console.log("gửi thanh công");
+            getData("/users/"+user.email)
         },
          error: () =>{
             alert("Incorrect!");
@@ -454,8 +457,56 @@ selectIdFrmUpdateInfo.addEventListener("submit",e =>{
 // xử lí gửi tin nhắn 
 
 // xử lí chấp nhận yêu cầu kết bạn
+function acceptRequest(node){
+    console.log(node.getAttribute("id"));
+    
+}
 /************************************/
 // xử lí logout 
 function onLogout(){
     window.open(url,"_self");
 }
+// xóa nhóm 
+function deleteGroup(node){
+    let keyGroup = Object.keys(user.group);
+    let id = node.getAttribute("id"); // id của danh sách bạn
+    let groupId =keyGroup[id];
+    $.ajax({
+        url: url +"/group/delete",
+        type:"POST",
+        data:"groupId="+groupId+"&email="+user.email,
+        headers:{Authorization:author},
+        dataType:"text",
+        success: function(res) {
+            getData("/users/"+user.email)
+            displayListGroup();
+        },
+         error: () =>{
+            alert("Incorrect!");
+         }
+    });
+}
+
+// xử lí thêm bạn 
+selectIdFrmAddFriend.addEventListener("submit",e =>{
+    e.preventDefault();
+    console.log(e.submitter);
+    // sử lí tạo nhóm
+    var a = "email="+userInfor.email;
+    console.log(a);
+    $.ajax({
+        url: url +"/friends/add/"+$('#id-add-friend').serialize() ,
+        type:"POST",
+        headers:{Authorization:author},
+        data:   $('#id-add-friend').serialize(),
+        dataType:"text",
+        success: function(res) {
+            getData("/users/"+user.email)
+        },
+         error: () =>{
+            alert("Incorrect!");
+         }
+    });
+    //  đóng form 
+
+});

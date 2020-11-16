@@ -327,7 +327,7 @@ button:hover {
 /*Nút thêm nhóm*/
 #btnAddGroup{
     z-index: 2;
-    position: absolute;
+    position: fixed;
     bottom:15%;
     left: 1rem;
 }
@@ -338,6 +338,18 @@ button:hover {
     padding: 0;
     width: 3rem;
     height: 3rem;
+}
+.menu-add{
+    position: absolute;
+    width: 9rem;
+    top: -1rem;
+    left: 3rem;
+    
+}
+.menu-add button{
+    width: 100%;
+    padding: 0.2rem;
+    margin: 0.2rem;
 }
 /*  khung hiển thị tin nhắn   */
 .box-chat{
