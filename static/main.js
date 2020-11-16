@@ -330,7 +330,7 @@ function displayFrameChat(node){
     //
 
     // set input message gửi đến ai 
-    //
+    
     //
     chatbox[0].setAttribute("class","chatBox display");
 
