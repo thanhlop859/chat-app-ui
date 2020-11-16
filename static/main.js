@@ -6,14 +6,14 @@ function getCookie() {
        type: "POST",
        url: url+"/auth",
        async: false,
-       data: "email=tester1&password=tester1",
+       data: "email=thanhlop859@gmail.com&password=12345",
        xhrFields:{
             withCredentials:true
        },
        dataType:"text",
        success: function(output,status,res) {
         author =res.getResponseHeader("Authorization");
-        getData('/users/tester');
+        getData('/users/thanhlop859@gmail.com');
        }, 
        error: () =>{
           alert("Incorrect email or password!");
@@ -239,7 +239,7 @@ function displayListFriend(){
 function onDisplayListChat(){
     let ds = listChatting;
     let listHTML = ds.map(x =>{
-        return `<li class='friend' onclick="friendOnClick(this)" id="${x.chatId}"><div class='picture'></div><div class='nameFriend'>${x.titleChat}</div></li>` 
+        return `<li class='friend' id="${x.chatId}" onclick="displayFrameChat(this)"><div class='picture' ></div><div class='nameFriend'>${x.titleChat}</div></li>` 
     });
      ds =listHTML.join('');
     boxMenu(ds);   
@@ -415,11 +415,13 @@ selectIdFrmAddGroup.addEventListener("submit",e =>{
     e.preventDefault();
     console.log(e.submitter);
     // sử lí tạo nhóm
+    var a =  $('#id-add-group').serialize()  + "&email="+userInfor.email;
+    console.log(a);
     $.ajax({
         url: url +"/group/create",
         type:"POST",
         headers:{Authorization:author},
-        data: $('#id-add-group').serialize(),
+        data: a,
         dataType:"text",
         success: function(res) {
             console.log("gửi thanh công");
@@ -452,4 +454,8 @@ selectIdFrmUpdateInfo.addEventListener("submit",e =>{
 // xử lí gửi tin nhắn 
 
 // xử lí chấp nhận yêu cầu kết bạn
-
+/************************************/
+// xử lí logout 
+function onLogout(){
+    window.open(url,"_self");
+}
