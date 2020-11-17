@@ -33,14 +33,17 @@
         <div class="main-box">
             <div class="aside">
                 <!-- Thanh trạng thái -->
-                <div class="status">
+                <div class="status-user-box">
                     <div class="picture"></div>
-                    <div>Tên và trang thái</div>
+                    <div >
+                        <div id="nameUser"></div>
+                        <div id="status"> Đang online</div>
+                    </div>
                 </div>
                 <!-- thanh search  -->
                 <div class="search-box">
                     <form method="post" id="id-search-friend">
-                        <input type="text" placeholder="Tìm kiếm bạn bè" name="email"></input>
+                        <input type="text" placeholder="Tìm kiếm bạn bè" name="emailSearch"></input>
                     </form>
                 </div>
                 <!--Hiển thị danh sách-->
@@ -54,8 +57,7 @@
                                 class="fas fa-plus"></i></button>
                         <div class="menu-add display-none" id="menuAdd">
                             <button onclick="onDisplayPlayout('frmAddGroup','display-none',1)">Thêm nhóm</button>
-                            <button onclick="onDisplayPlayout('frmAddFriend','display-none',1)">Thêm bạn</button>
-                               
+                            <button onclick="onDisplayPlayout('frmAddFriend','display-none',1)">Thêm bạn</button>      
                             
                         </div>
                     </div>
@@ -79,12 +81,17 @@
                     <button class='btn_Menu' onclick="onDisplayListChat()">
                         <i class="far fa-comment-dots"></i>
                     </button>
+                    <button class='btn_Menu' onclick="displayReceiveListRequest(this)">
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                    <button class='btn_Menu' onclick="displayListRequest(this)">
+                        <i class="fas fa-id-badge"></i>
+                    </button>
+                    
                     <button class='btn_Menu' onclick="displayListGroup(this)">
                         <i class="fas fa-users"></i>
                     </button>
-                    <button class='btn_Menu' onclick="displayListRequest(this)">
-                        <i class="fas fa-user-plus"></i>
-                    </button>
+                    
                     <button class='btn_Menu' onclick="displayListFriend(this)">
                         <i  class="fas fa-user-friends"></i>
                     </button>
@@ -98,7 +105,7 @@
                 <form id="id-add-group">
                     <h2>Tạo nhóm chat</h2>
                     <label for="">Tên nhóm:</label>
-                    <input type="text" name="groupName" id="" placeholder="Tên nhóm">
+                    <input type="text" name="groupName"  placeholder="Tên nhóm">
 
                     <hr>
                     <button class="cancelbtn" type="reset" onclick="offPlayout('frmAddGroup','display-none',1)">Hủy</button>
@@ -112,7 +119,7 @@
                 <form id="id-add-friend">
                     <h2>Nhập email </h2>
                     <label for="">Email:</label>
-                    <input type="text" name="friendEmail" id="" placeholder="Email">
+                    <input type="text" name="friendEmail" placeholder="Email">
 
                     <hr>
                     <button class="cancelbtn" type="reset" onclick="offPlayout('frmAddFriend','display-none',1)">Hủy</button>
@@ -190,21 +197,21 @@
 
                     <label for="username"><b>Tên tài khoản</b>
                     </label>
-                    <input type="text" placeholder="username" name="username" required>
+                    <input type="text" name="username" required>
 
                     <br>
 
                 
                     <label for="email"><b>Địa chỉ Email</b>
                     </label>
-                    <input type="text" placeholder="Enter Email" name="email" required>
+                    <input type="text" name="email" required>
 
                     <br>
 
 
-                    <label for="email"><b>Tuổi hiện tại</b>
+                    <label for="age"><b>Tuổi hiện tại</b>
                     </label>
-                    <input type="text" placeholder="tuổi hiện tại" name="age" required>
+                    <input type="text"  name="age" required>
 
                     <br>
 
