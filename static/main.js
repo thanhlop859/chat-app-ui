@@ -6,14 +6,15 @@ function getCookie() {
        type: "POST",
        url: url+"/auth",
        async: false,
-       data: "email=tester1&password=tester1",
+       data: "email=tester&password=tester",
        xhrFields:{
             withCredentials:true
        },
        dataType:"text",
        success: function(output,status,res) {
         author =res.getResponseHeader("Authorization");
-        getData("/users/tester1");
+        getData("/users/tester");
+
        }, 
        error: () =>{
           alert("Incorrect email or password!");
@@ -27,76 +28,19 @@ function getData(urlget){
     $.ajax({
         url:url+urlget,
         type:"GET",
-        async:false,
+        async:true,
         headers:{Authorization:author},
         dataType:"text",
         success: function(res) {
             user = JSON.parse(res);
-            console.log(user);
-
+           // selectNameUser.innerText = user.userName;
+            getData(urlget);
         },
          error: () =>{
             alert("Incorrect!");
          }
     });
 }
-
-var userInfor = 
-    {
-        id: "001",
-        email: "tester",
-        password:  "*****",
-        age: 21,
-        gender: 1,
-        username: "Lê Duy Thanh",
-        role:"user",
-        friend:[{
-            email:"hai@gmail.com",
-            username: "Đinh Vũ"
-        },{
-            email:"binz@.gmail.com",
-            username: "Nguyễn Đan"
-        },{
-            email:"TinHX@gmail.com",
-            username: "Huy Đinh"
-        },{
-            email:"amen@gmail.com",
-            username: "Vũ Khắc Tường"
-        },{
-            email:"hiNam@gmail.com",
-            username: "Lê Vũ Nam"
-        }, {
-            email: "ak@gmail.com",
-            username: "Trần Tấn Tài"
-        },{
-            email: "kazz@gmail.com",
-            username: "Huỳnh Tấn Đức"
-        },{
-            email: "trung@gmail.com",
-            username: "Huỳnh Đức Trung"
-        },{
-            email: "lozen@gmail.com",
-            username: "Huỳnh Đức Trâu"
-        }],
-        group:[{
-            groupId: "001",
-            manager:"Lê Duy Thanh",
-            groupName: "G1"
-        }],
-        friendRequest:[
-            {
-                email: "Hoi@gmai.com",
-                username: "Lê Vũ Hội"
-            }, {
-                email: "quang@gmail.com",
-                username: "Trần Tài Quang"
-            },{
-                email:"tduc@gmail.com",
-                username: "Huỳnh đa Đức"
-            }
-        ],
-        acceptFriendRequest:[]
-};
 
 
 
@@ -207,7 +151,6 @@ const selectIdFrmAddGroup = document.getElementById('id-add-group');
 const selectIdFrmUpdateInfo = document.getElementById('id-frm-updata-info');
 const selectIdSearchFriend = document.getElementById('id-search-friend');
 const selectIdFrmAddFriend = document.getElementById("id-add-friend");
-
 const selectNameUser = document.getElementById("nameUser");
 const selectStatus = document.getElementById("status");
 
@@ -215,12 +158,16 @@ const selectStatus = document.getElementById("status");
 
 // đợi tài liệu load và hiển thị danh sách bạn 
 function scriptDisplay(){
-    var condition = navigator.onLine ? "online" : "offline";
-    console.log(condition);
-    selectStatus.innerText="Đang "+condition;
-    selectNameUser.innerText=user.userName;
+    onDisplayListChat();
+   
+
+}
+
+// đặt tên và trang thái cho web
+function setStatus(status){
+    selectStatus.innerText="Đang "+status;
     
-  onDisplayListChat();
+    console.log("You are now connected to the network.");
 }
 
 //hàm hiển thị danh sách bạn
@@ -233,12 +180,11 @@ function boxMenu(ds){
     listfriend[0].innerHTML =ds; 
 }
 function displayListFriend(){
-    
     let keyFriend = Object.keys(user.friend);
     
     // danh sách bạn
     let listHTML='';
-    keyFriend.forEach(e=>listHTML += `<li class='friend' ondblclick="friendOnClick(this)" id="${e}"><div class='picture'></div><div class='nameFriend'>${user.friend[e]}</div><button class="cancel" onclick="deleletFriend(this)" id="${e}"><i class="far fa-times-circle"></i></button></li>`
+    keyFriend.forEach(e=>listHTML += `<li class='friend' "><div class='picture'></div><div class='nameFriend' onclick="friendOnClick(this)" id="${e}">${user.friend[e]}</div><button class="cancel" onclick="deleletFriend(this)" id="${e}"><i class="far fa-times-circle"></i></button></li>`
     );
     
     boxMenu(listHTML);   
@@ -329,15 +275,15 @@ function displayFrameChat(node){
     //lấy thông tin của bạn
     //dat lai hien thi khung chat
     boxChat[0].innerHTML="";
-
+    let objKey = Object.keys(user.friend);
     // search danh sach chat co được tạo chưa
     let haveExist =listChatting.find(x=>x.chatId===id);
     // Nếu chưa thì tạo mới
     if (haveExist ==undefined){
-        let objFriend = user.friend.find(x=>x.email=== id);
+        let emailFriend = objKey.find(email=>email=== id);
         listChatting.push({
-            chatId:objFriend.email,
-            titleChat:objFriend.username,
+            chatId:emailFriend,
+            titleChat:user.friend[emailFriend],
             message:[]
         });
          haveExist= listChatting[listChatting.length-1]; 
@@ -451,7 +397,6 @@ selectIdFrmAddGroup.addEventListener("submit",e =>{
         data: a,
         dataType:"text",
         success: function(res) {
-            getData("/users/"+user.email)
             displayListGroup();
         },
          error: () =>{
@@ -493,7 +438,6 @@ function acceptRequest(node){
         data:   "friendEmail="+friendE+"&email="+user.email,
         dataType:"text",
         success: function(res) {
-            getData("/users/"+user.email)
             alert("Đã chấp nhận lời mời kết bạn");
             displayReceiveListRequest();
         },
@@ -521,9 +465,8 @@ function deleteGroup(node){
         headers:{Authorization:author},
         dataType:"text",
         success: function(res) {
-            getData("/users/"+user.email)
-            displayListGroup();
             alert("Xóa nhóm thành công");
+            displayListGroup();
             offPlayout('frmAddGroup','display-none',1);
         },
          error: () =>{
@@ -544,7 +487,6 @@ selectIdFrmAddFriend.addEventListener("submit",e =>{
         data:   $('#id-add-friend').serialize()+"&email="+user.email,
         dataType:"text",
         success: function(res) {
-            getData("/users/"+user.email)
             alert("Đã gửi lời mời kết bạn");
             offPlayout('frmAddFriend','display-none',1);
             displayListRequest();
@@ -568,9 +510,8 @@ function deleletFriend(node){
         headers:{Authorization:author},
         dataType:"text",
         success: function(res) {
-            getData("/users/"+user.email)
-            displayListFriend();
             alert("Xóa bạn thành công");
+            displayListFriend();  
         },
          error: () =>{
             alert("Incorrect!");
