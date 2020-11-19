@@ -13,7 +13,7 @@ function getCookie() {
        dataType:"text",
        success: function(output,status,res) {
         author =res.getResponseHeader("Authorization");
-        getData("/users/tester");
+        getData();
 
        }, 
        error: () =>{
@@ -24,9 +24,9 @@ function getCookie() {
 
 
 var user ;
-function getData(urlget){
+function getData(){
     $.ajax({
-        url:url+urlget,
+        url:url+"/users/tester",
         type:"GET",
         async:true,
         headers:{Authorization:author},
@@ -34,7 +34,7 @@ function getData(urlget){
         success: function(res) {
             user = JSON.parse(res);
            // selectNameUser.innerText = user.userName;
-            getData(urlget);
+           // getData(urlget);
         },
          error: () =>{
             alert("Incorrect!");
@@ -184,7 +184,7 @@ function displayListFriend(){
     
     // danh sách bạn
     let listHTML='';
-    keyFriend.forEach(e=>listHTML += `<li class='friend' "><div class='picture'></div><div class='nameFriend' onclick="friendOnClick(this)" id="${e}">${user.friend[e]}</div><button class="cancel" onclick="deleletFriend(this)" id="${e}"><i class="far fa-times-circle"></i></button></li>`
+    keyFriend.forEach(e=>listHTML += `<li class='friend' id="${e}"><div class='picture'></div><div class='nameFriend' onclick="friendOnClick(${e})" >${user.friend[e]}</div><button class="cancel" onclick="deleletFriend(${e})"><i class="far fa-times-circle"></i></button></li>`
     );
     
     boxMenu(listHTML);   
@@ -391,12 +391,15 @@ selectIdFrmAddGroup.addEventListener("submit",e =>{
     var a =  $('#id-add-group').serialize()  + "&email="+user.email;
     console.log(a);
     $.ajax({
-        url: url +"/group/create",
+        url: url +"/groups/create",
         type:"POST",
         headers:{Authorization:author},
         data: a,
         dataType:"text",
         success: function(res) {
+            getData();
+            alert("Tạo nhóm thành công");
+            offPlayout('frmAddGroup','display-none');
             displayListGroup();
         },
          error: () =>{
@@ -418,13 +421,6 @@ selectIdFrmUpdateInfo.addEventListener("submit",e =>{
     // đóng form 
 
 });
-
-// xử lí sự kiện search 
-// selectIdSearchFriend.addEventListener("change",e=>{
-
-// });
-
-// xử lí gửi tin nhắn 
 
 // xử lí chấp nhận yêu cầu kết bạn
 function acceptRequest(node){
@@ -459,15 +455,16 @@ function deleteGroup(node){
     let groupId =keyGroup[id];
     console.log(groupId);
     $.ajax({
-        url: url +"/group/delete",
+        url: url +"/groups/delete",
         type:"DELETE",
         data:"groupId="+groupId+"&email="+user.email,
         headers:{Authorization:author},
         dataType:"text",
         success: function(res) {
+            getData();
             alert("Xóa nhóm thành công");
             displayListGroup();
-            offPlayout('frmAddGroup','display-none',1);
+            offPlayout('frmAddGroup','display-none');
         },
          error: () =>{
             alert("Incorrect!");
@@ -490,7 +487,6 @@ selectIdFrmAddFriend.addEventListener("submit",e =>{
             alert("Đã gửi lời mời kết bạn");
             offPlayout('frmAddFriend','display-none',1);
             displayListRequest();
-
         },
          error: () =>{
             alert("Incorrect!");
