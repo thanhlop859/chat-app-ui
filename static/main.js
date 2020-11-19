@@ -28,7 +28,7 @@ function getData(){
     $.ajax({
         url:url+"/users/tester",
         type:"GET",
-        async:true,
+        async:false,
         headers:{Authorization:author},
         dataType:"text",
         success: function(res) {
@@ -260,16 +260,16 @@ function friendOnClick(nodeFriend){
         friend[i].setAttribute("class",'friend');
     }
     nodeFriend.setAttribute("class","friend active");
-
+    let eFriend = nodeFriend.getAttribute('id');
     // hàm hiển thị khung chat
-    displayFrameChat(nodeFriend);
+    displayFrameChat(eFriend);
     
 }
 /*****************************************************************/
 // hiển thị khung chat 
 function displayFrameChat(node){
     let chatbox = selectChatBox;
-    let id =node.getAttribute("id");
+    let id =node;
     let boxChat = selectBoxChat;
     let titleBox = selectTitleBox;
     //lấy thông tin của bạn
@@ -297,13 +297,6 @@ function displayFrameChat(node){
         }
     });
    
-    // hiển thị khung chat cho người được chọn
-    //
-    //
-
-    // set input message gửi đến ai 
-    
-    //
     chatbox[0].setAttribute("class","chatBox display");
 
     //tắt nút thêm nhóm
@@ -344,16 +337,12 @@ function onDisplayFormUpdate(){
         formUpdate[0].style.display="grid";
         //set thông tin
         
-        document.getElementsByName('username')[0].setAttribute("placeholder",user.userName);
-        document.getElementsByName('email')[0].setAttribute("placeholder",user.email);
+        document.getElementsByName('userName')[0].setAttribute("placeholder",user.userName);
 
         document.getElementsByName('age')[0].setAttribute("placeholder",user.age);
-        document.getElementById("female").setAttribute("checked","checked");
-
         overlay[0].style.display='block';
 
 }
-
 function offDisplayFormUpdate(){
     let overlay =selectOverlay;
 
@@ -406,8 +395,6 @@ selectIdFrmAddGroup.addEventListener("submit",e =>{
             alert("Incorrect!");
          }
     });
-    //  đóng form 
-
 });
 
 // xử lí sự kiện sửa thông tin người dùng
@@ -415,11 +402,23 @@ selectIdFrmUpdateInfo.addEventListener("submit",e =>{
     e.preventDefault();
     console.log(e.submitter);
     // sử lí chính sửa thông tin
-
-        
-    
-    // đóng form 
-
+    var a =  $('#id-frm-updata-info').serialize()  + "&email="+user.email;
+    console.log(a);
+    $.ajax({
+        url: url +"/users/edit",
+        type:"POST",
+        headers:{Authorization:author},
+        data: a,
+        dataType:"text",
+        success: function(res) {
+            getData();
+            alert("cập nhật thành công");
+            offDisplayFormUpdate()
+        },
+         error: () =>{
+            alert("Incorrect!");
+         }
+    });
 });
 
 // xử lí chấp nhận yêu cầu kết bạn
