@@ -131,16 +131,7 @@
             <!-- hiển thị thông tin ban chát -->
             <div id="inforFriend" class="form-info-friend display-none">
 
-                <button onclick="offPlayout('inforFriend','display-none',1)">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-                <div class="">
-                    Tên:
-                </div>
-                <div>Email:</div>
-                <div class="">Tuổi:</div>
-                <div class="">Kho lưu trữ:</div>
-                <div class="">Xóa bạn</div>
+               
             </div>
             <!-- phần chat-->
              <!-- phần chat-->
@@ -148,9 +139,8 @@
                 <div class="headerBox">
                     <button class="iconBox" onclick="offDislayChat()"><i class="fas fa-arrow-left"></i></button>
                     <div class="title-box">Chọn bạn để chat</div>
-                    <button class="iconBox infor" onmousedown="onDisplayPlayout('inforFriend','display-none',1)"">
+                    <button class="iconBox infor"  id="btnDisplayInfo">
                         <i class=" fas fa-ellipsis-h"></i>
-
                     </button>
                 </div>
                 <!-- khung hiển thị tin nhắn  -->
@@ -165,7 +155,7 @@
                             <span style="border: solid 0.1rem #aaa;"> <i class="far fa-folder-open"></i>
                             </span>
                         </label>
-                        <input type="file" name="file" id="upload-file" >
+                        <input type="file" name="file" id="upload-file"  style="display:none"  >
 
                     </div>
                     <div>

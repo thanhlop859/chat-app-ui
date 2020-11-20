@@ -6,7 +6,7 @@ function getCookie() {
        type: "POST",
        url: url+"/auth",
        async: false,
-       data: "email=tester&password=tester",
+       data: "email=tester1&password=tester1",
        xhrFields:{
             withCredentials:true
        },
@@ -26,7 +26,7 @@ function getCookie() {
 var user ;
 function getData(){
     $.ajax({
-        url:url+"/users/tester",
+        url:url+"/users/tester1",
         type:"GET",
         async:false,
         headers:{Authorization:author},
@@ -184,8 +184,16 @@ function displayListFriend(){
     
     // danh sách bạn
     let listHTML='';
-    keyFriend.forEach(e=>listHTML += `<li class='friend' id="${e}"><div class='picture'></div><div class='nameFriend' onclick="friendOnClick(${e})" >${user.friend[e]}</div><button class="cancel" onclick="deleletFriend(${e})"><i class="far fa-times-circle"></i></button></li>`
-    );
+    keyFriend.forEach(e=>{
+        idNew = e+'friend'
+        listHTML += `<li class='friend' id="${idNew}">
+        <div class='picture'></div>
+        <div class='nameFriend' onclick="friendOnClick(${idNew})" >${user.friend[e]}</div>
+        <button class="cancel" onclick="deleletFriend(${idNew})">
+        <i class="far fa-times-circle"></i>
+        </button>
+        </li>`;
+    });
     
     boxMenu(listHTML);   
     //tắt nút thêm nhóm
@@ -196,7 +204,10 @@ function displayListFriend(){
 function onDisplayListChat(){
     let ds = listChatting;
     let listHTML = ds.map(x =>{
-        return `<li class='friend' id="${x.chatId}" onclick="displayFrameChat(this)"><div class='picture' ></div><div class='nameFriend'>${x.titleChat}</div></li>` 
+        return `<li class='friend' id="${x.chatId}" onclick="displayFrameChat(this)">
+        <div class='picture' ></div>
+        <div class='nameFriend'>${x.titleChat}</div>
+        </li>` ;
     });
      ds =listHTML.join('');
     boxMenu(ds);   
@@ -210,7 +221,15 @@ function displayListGroup(){
     onDisplayPlayout('btnAddGroup','display-none',0);
     }else{
         let keyGroup = Object.keys(user.group);
-        keyGroup.forEach(function(e,i){listHTML += `<li class='friend' ondblclick="friendOnClick(this)" id="${i}"><div class='picture'></div><div class='nameFriend'>${user.group[e]}</div> <button class="cancel" onclick="deleteGroup(this)" id=${i}><i class="far fa-times-circle"></i></button></li>`});
+        keyGroup.forEach(
+            function(e,i){
+                listHTML += `<li class='friend' ondblclick="friendOnClick(this)" id="${i}">
+                <div class='picture'></div>
+                <div class='nameFriend'>${user.group[e]}</div>
+                 <button class="cancel" onclick="deleteGroup(this)" id=${i}>
+                 <i class="far fa-times-circle"></i>
+                 </button>
+                 </li>`});
         boxMenu(listHTML);   
         onDisplayPlayout('btnAddGroup','display-none',0);
     } 
@@ -222,7 +241,16 @@ function displayReceiveListRequest(){
     let keyRe = Object.keys(user.receivedFriendRequest);
     let listHTML ="";
     keyRe.forEach(function(e,i){
-        listHTML+=`<li class='friend'><div class='picture'></div><div class='nameFriend'>${user.receivedFriendRequest[e]}</div><button class="accept" onclick="acceptRequest(this)" id="${e}"><i class="far fa-check-circle"></i></button ><button class="cancel"><i class="far fa-times-circle"></i></button></li>`});
+        listHTML+=`<li class='friend'>
+        <div class='picture'></div>
+        <div class='nameFriend'>${user.receivedFriendRequest[e]}</div>
+        <button class="accept" onclick="acceptRequest(this)" id="${e}">
+            <i class="far fa-check-circle"></i>
+        </button >
+        <button class="cancel">
+            <i class="far fa-times-circle"></i>
+        </button>
+        </li>`});
     boxMenu(listHTML);  
     offPlayout('btnAddGroup','display-none');
 }
@@ -233,7 +261,13 @@ function displayListRequest(){
     let keyRe = Object.keys(user.friendRequest);
     let listHTML ="";
     keyRe.forEach(function(e,i){
-        listHTML+=`<li class='friend'><div class='picture'></div><div class='nameFriend'>${user.friendRequest[e]}</div><button class="cancel" id="${e}"><i class="far fa-times-circle"></i></button></li>`});
+        listHTML+=`<li class='friend'>
+        <div class='picture'></div>
+        <div class='nameFriend'>${user.friendRequest[e]}</div>
+        <button class="cancel" id="${e}">
+            <i class="far fa-times-circle"></i>
+        </button>
+        </li>`});
     boxMenu(listHTML);  
     onDisplayPlayout('btnAddGroup','display-none',0);
 }
@@ -254,35 +288,38 @@ function displayProfile(){
 
 /****************************************************************** */
 // đăt lại trạng thái fucus
-function friendOnClick(nodeFriend){
+function friendOnClick(nodeFriend,typeChat){
     let friend = selectFriend;
     for(let i= 0;i< friend.length;i++){
         friend[i].setAttribute("class",'friend');
     }
     nodeFriend.setAttribute("class","friend active");
     let eFriend = nodeFriend.getAttribute('id');
+    //eFriend = eFriend.slice(0,eFriend.length-6);
+    console.log(eFriend);
     // hàm hiển thị khung chat
-    displayFrameChat(eFriend);
+    displayFrameChat(eFriend,typeChat);
     
 }
 /*****************************************************************/
 // hiển thị khung chat 
-function displayFrameChat(node){
+function displayFrameChat(idnode,typeChat){
+     let eFriend =idnode.slice(0,idnode.length-6);
+
+    let infoF = getInfoFriend(eFriend);
     let chatbox = selectChatBox;
-    let id =node;
     let boxChat = selectBoxChat;
     let titleBox = selectTitleBox;
-    //lấy thông tin của bạn
     //dat lai hien thi khung chat
     boxChat[0].innerHTML="";
     let objKey = Object.keys(user.friend);
     // search danh sach chat co được tạo chưa
-    let haveExist =listChatting.find(x=>x.chatId===id);
+    let haveExist =listChatting.find(x=>x.chatId===idnode);
     // Nếu chưa thì tạo mới
     if (haveExist ==undefined){
-        let emailFriend = objKey.find(email=>email=== id);
+        let emailFriend = objKey.find(email=>email=== eFriend);
         listChatting.push({
-            chatId:emailFriend,
+            chatId:emailFriend+'chatti',
             titleChat:user.friend[emailFriend],
             message:[]
         });
@@ -296,16 +333,22 @@ function displayFrameChat(node){
             boxChat[0].innerHTML += `<div class="stl_mes recieve"><span>`+ x.content+`</span></div><div></div>`;
         }
     });
-   
     chatbox[0].setAttribute("class","chatBox display");
-
+    chatbox[0].setAttribute("id",listChatting[listChatting.length-1].chatId); // đặt id cho khung chat
+    let idChatting = chatbox[0].getAttribute("id");
     //tắt nút thêm nhóm
     offPlayout('btnAddGroup','display-none');
 
      //tự động cuộn xuống nội dung mới 
      boxChat[0].scrollTop = boxChat[0].scrollHeight;
+        
+    let btnDisplayInfor = document.getElementById('btnDisplayInfo');
+    btnDisplayInfor.addEventListener("click",e=>{
+        insertInfoFriend(infoF,idChatting);
+        onDisplayPlayout('inforFriend','display-none',1);
+        
+    });
 }
-
 /*******************************************************************/
 
 // hàm đóng khung chat lại
@@ -317,18 +360,23 @@ function offDislayChat(){
     chatBox[0].setAttribute("class","chatBox");
     titleBox[0].innerText="Chọn bạn để chat";
     boxChat[0].innerHTML ="";
-    
 }
 
 // hàm hiển thị thông tin group hoặc friend
-function onDisplayInfor(){
-
-    // var a = document.getElementsByClassName("displayInfor")[0].style.visibility ;
-    // if(a ==="hidden"){
-    //     document.getElementsByClassName("displayInfor")[0].style.visibility ="visible";
-    // }else{
-    //     document.getElementsByClassName("displayInfor")[0].style.visibility= "hidden";
-    // }
+function insertInfoFriend(info,idChatting){
+    console.log(info);
+    let email = info.email +"10";
+    let selectIdFromInfoFriendChat = document.getElementById("inforFriend");
+    let html =` <div><button onclick="offPlayout('inforFriend','display-none',1)">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                </div>
+                <div>Tên: ${info.userName}</div>
+                <div>Email: ${info.email}</div>
+                <div>Tuổi: ${info.age}</div>
+                <div>Kho lưu trữ:</div>
+                <div><button onclick="deleletFriend(${idChatting})" >Xóa bạn</button></div>`;
+    selectIdFromInfoFriendChat.innerHTML= html;
 }
 //Hiển thị form cập nhật
 function onDisplayFormUpdate(){
@@ -433,6 +481,7 @@ function acceptRequest(node){
         data:   "friendEmail="+friendE+"&email="+user.email,
         dataType:"text",
         success: function(res) {
+            getData();
             alert("Đã chấp nhận lời mời kết bạn");
             displayReceiveListRequest();
         },
@@ -483,6 +532,7 @@ selectIdFrmAddFriend.addEventListener("submit",e =>{
         data:   $('#id-add-friend').serialize()+"&email="+user.email,
         dataType:"text",
         success: function(res) {
+            getData();
             alert("Đã gửi lời mời kết bạn");
             offPlayout('frmAddFriend','display-none',1);
             displayListRequest();
@@ -497,7 +547,8 @@ selectIdFrmAddFriend.addEventListener("submit",e =>{
 function deleletFriend(node){
     let keyGroup = Object.keys(user.friend);
     let emailF = node.getAttribute("id"); // id của danh sách bạn
-    console.log(emailF);
+    
+    emailF = emailF.slice(0,emailF.length-6); // sử lí lại cái email
     $.ajax({
         url: url +"/friends/remove",
         type:"DELETE",
@@ -505,6 +556,7 @@ function deleletFriend(node){
         headers:{Authorization:author},
         dataType:"text",
         success: function(res) {
+            getData();
             alert("Xóa bạn thành công");
             displayListFriend();  
         },
@@ -512,4 +564,22 @@ function deleletFriend(node){
             alert("Incorrect!");
          }
     });
+}
+// lấy thông tin bạn chat
+function getInfoFriend(emailF){
+    let friendInfo;
+        $.ajax({
+            url:url+"/users/"+emailF,
+            type:"GET",
+            async:false,
+            headers:{Authorization:author},
+            dataType:"text",
+            success: function(res) {
+                friendInfo = JSON.parse(res);
+            },
+             error: () =>{
+                alert("Incorrect!");
+             }
+        });
+    return friendInfo;
 }
