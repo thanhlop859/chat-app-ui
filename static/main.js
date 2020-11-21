@@ -110,7 +110,7 @@ function getCookie() {
        type: "POST",
        url: url+"/auth",
        async: false,
-       data: "email=tester&password=tester",
+       data: "email=tester1&password=tester1",
        xhrFields:{
             withCredentials:true
        },
@@ -127,7 +127,7 @@ function getCookie() {
 }
 function getData(){
     $.ajax({
-        url:url+"/users/tester",
+        url:url+"/users/tester1",
         type:"GET",
         async:false,
         headers:{Authorization:author},
@@ -469,9 +469,26 @@ function insertInfoGroup(info){
                 <div>Danh sách thành viên<hr></div>
                 <div><button onclick="addMember(${info.groupId})">Thêm thành viên</button><hr></div>
                 <div><button>Xóa thành viên</button><hr></div>
-                <div><button>Rời nhóm</button><hr></div>`;
+                <div><button onclick="leaveGroup(${info.groupId})">Rời nhóm</button><hr></div>`;
     if(info.manager===user.email) html +=`<div><button>Xóa nhóm</button></div>`;
     selectIdFromInfoFriendChat.innerHTML= html;
+}
+function leaveGroup(groupId){
+    groupId = groupId.getAttribute("id");
+    $.ajax({
+        url: url +"/groups/leave",
+        type:"POST",
+        headers:{Authorization:author},
+        data:   "groupId="+groupId+"&email="+user.email,
+        dataType:"text",
+        success: function(res) {
+            if(res=="SUCCEED")alert("Bạn đã rời nhóm")
+            else alert ("Bạn không là thành viên của nhóm");
+        },
+         error: () =>{
+            alert("Incorrect!");
+         }
+    });
 }
 // thêm member 
 function addMember(idGroup){
