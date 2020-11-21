@@ -129,11 +129,21 @@
             </div>
             <!-- end -->
             <!-- hiển thị thông tin ban chát -->
-            <div id="inforFriend" class="form-info-friend display-none">
+            <div class="parent-form-update display-none" id="wrapperInfo">
+                <div id="inforFriend" class="form-info-friend">
 
                
+                </div>
             </div>
-            <!-- phần chat-->
+            
+            <div id='idAddMember' class="box-hidden alert-box display-none">
+                <form id="frmAddMember">
+                    <label for="addMember">Thêm thành viên mới</label>
+                    <input type="text" name="friendEmail" id="" placeholder="Nhập email của member">
+                    <button type="reset" onclick="offPlayout('idAddMember','display-none')">Hủy</button>
+                    <button type="submit">Thêm</button>
+                </form>
+            </div>
              <!-- phần chat-->
              <div class="chatBox">
                 <div class="headerBox">

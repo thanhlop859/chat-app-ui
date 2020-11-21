@@ -1,49 +1,6 @@
-const url = "https://chatapp-kkt.herokuapp.com"
+const url = "https://chatapp-kkt.herokuapp.com";
+var user;
 var author;
-getCookie();
-function getCookie() {
-    $.ajax({
-       type: "POST",
-       url: url+"/auth",
-       async: false,
-       data: "email=tester1&password=tester1",
-       xhrFields:{
-            withCredentials:true
-       },
-       dataType:"text",
-       success: function(output,status,res) {
-        author =res.getResponseHeader("Authorization");
-        getData();
-
-       }, 
-       error: () =>{
-          alert("Incorrect email or password!");
-       }
-    });
-}
-
-
-var user ;
-function getData(){
-    $.ajax({
-        url:url+"/users/tester1",
-        type:"GET",
-        async:false,
-        headers:{Authorization:author},
-        dataType:"text",
-        success: function(res) {
-            user = JSON.parse(res);
-           // selectNameUser.innerText = user.userName;
-           // getData(urlget);
-        },
-         error: () =>{
-            alert("Incorrect!");
-         }
-    });
-}
-
-
-
 var listChatting=[
     {
         chatId:"001",
@@ -130,16 +87,6 @@ var listChatting=[
         ]
     }
 ];
-// 3 request 
-// - lay thong tin user
-// - lay danh sách bạn 
-// - lay danh sách request 
-// - danh sách 
-
-/**********************************************************************/
-
-
-const selectListFriend = document.getElementsByClassName("list-friend");
 const selectBoxInfoUser =document.getElementsByClassName("box-info-user");
 const selectChatBox = document.getElementsByClassName("chatBox");
 const selectTitleBox=document.getElementsByClassName("title-box");
@@ -153,16 +100,55 @@ const selectIdSearchFriend = document.getElementById('id-search-friend');
 const selectIdFrmAddFriend = document.getElementById("id-add-friend");
 const selectNameUser = document.getElementById("nameUser");
 const selectStatus = document.getElementById("status");
+const selectListFriend = document.getElementsByClassName("list-friend");
 
 /************************************************************************** */
 
+getCookie();
+function getCookie() {
+    $.ajax({
+       type: "POST",
+       url: url+"/auth",
+       async: false,
+       data: "email=tester&password=tester",
+       xhrFields:{
+            withCredentials:true
+       },
+       dataType:"text",
+       success: function(output,status,res) {
+        author =res.getResponseHeader("Authorization");
+        getData();
+
+       }, 
+       error: () =>{
+          alert("Incorrect email or password!");
+       }
+    });
+}
+function getData(){
+    $.ajax({
+        url:url+"/users/tester",
+        type:"GET",
+        async:false,
+        headers:{Authorization:author},
+        dataType:"text",
+        success: function(res) {
+            user = JSON.parse(res);
+           // selectNameUser.innerText = user.userName;
+           // getData(urlget);
+        },
+         error: () =>{
+            alert("Incorrect!");
+         }
+    });
+}
+/**********************************************************************/
+
+
 // đợi tài liệu load và hiển thị danh sách bạn 
 function scriptDisplay(){
-    onDisplayListChat();
-   
-
+    onDisplayListChat(); 
 }
-
 // đặt tên và trang thái cho web
 function setStatus(status){
     selectStatus.innerText="Đang "+status;
@@ -197,7 +183,7 @@ function displayListFriend(){
     
     boxMenu(listHTML);   
     //tắt nút thêm nhóm
-    offPlayout('btnAddGroup','display-none');
+    //offPlayout('btnAddGroup','display-none');
 }
 
 // hiển thị danh sách bạn đang chat 
@@ -216,23 +202,39 @@ function onDisplayListChat(){
 
 function displayListGroup(){
     let listHTML=''; 
-    if(user.group ===null){
-        boxMenu(listHTML);   
+    let keyGroup = Object.keys(user.group);
+
+    keyGroup.forEach(e=>{
+        idNew = e+'agroup'
+        listHTML += `<li class='friend' id="${idNew}">
+        <div class='picture'></div>
+        <div class='nameFriend' onclick="groupOnClick(${idNew},'kieuban')" >${user.group[e]}</div>
+        <button class="cancel" onclick="deleteGroup(${e})">
+        <i class="far fa-times-circle"></i>
+        </button>
+        </li>`;
+    });
+    boxMenu(listHTML);
+
+    //bật nút thêm bạn
     onDisplayPlayout('btnAddGroup','display-none',0);
-    }else{
-        let keyGroup = Object.keys(user.group);
-        keyGroup.forEach(
-            function(e,i){
-                listHTML += `<li class='friend' ondblclick="friendOnClick(this)" id="${i}">
-                <div class='picture'></div>
-                <div class='nameFriend'>${user.group[e]}</div>
-                 <button class="cancel" onclick="deleteGroup(this)" id=${i}>
-                 <i class="far fa-times-circle"></i>
-                 </button>
-                 </li>`});
-        boxMenu(listHTML);   
-        onDisplayPlayout('btnAddGroup','display-none',0);
-    } 
+    // if(user.group ===null){
+    //     boxMenu(listHTML);   
+    // onDisplayPlayout('btnAddGroup','display-none',0);
+    // }else{
+    //     let keyGroup = Object.keys(user.group);
+    //     keyGroup.forEach(
+    //         function(e,i){
+    //             listHTML += `<li class='friend' ondblclick="proupOnClick()" id="${i}">
+    //             <div class='picture'></div>
+    //             <div class='nameFriend'>${user.group[e]}</div>
+    //              <button class="cancel" onclick="deleteGroup(this)" id=${i}>
+    //              <i class="far fa-times-circle"></i>
+    //              </button>
+    //              </li>`});    
+    //     boxMenu(listHTML);   
+    //     onDisplayPlayout('btnAddGroup','display-none',0);
+    // } 
 }
 
 //hiển thị danh sách những yêu cầu kết bạn
@@ -288,39 +290,107 @@ function displayProfile(){
 
 /****************************************************************** */
 // đăt lại trạng thái fucus
-function friendOnClick(nodeFriend,typeChat){
+function friendOnClick(nodeFriend){
     let friend = selectFriend;
     for(let i= 0;i< friend.length;i++){
         friend[i].setAttribute("class",'friend');
     }
     nodeFriend.setAttribute("class","friend active");
     let eFriend = nodeFriend.getAttribute('id');
-    //eFriend = eFriend.slice(0,eFriend.length-6);
-    console.log(eFriend);
+     eFriend =eFriend.slice(0,eFriend.length-6);
     // hàm hiển thị khung chat
-    displayFrameChat(eFriend,typeChat);
+    displayFrameChatFriend(eFriend);
     
 }
-/*****************************************************************/
-// hiển thị khung chat 
-function displayFrameChat(idnode,typeChat){
-     let eFriend =idnode.slice(0,idnode.length-6);
+function groupOnClick(nodeGroup){
+    let friend = selectFriend;
+    //đặt toàn bộ lại bình thường
+    for(let i= 0;i< friend.length;i++){
+        friend[i].setAttribute("class",'friend');
+    }
+    //set trạng thai fucus
+    nodeGroup.setAttribute("class","friend active");
+    let idGroup = nodeGroup.getAttribute('id');
+    idGroup =idGroup.slice(0,idGroup.length-6);
+    console.log(idGroup);
+    displayFrameChatGroup(idGroup);
+}
 
+/*****************************************************************/
+
+// hiển thị khung chat cho group
+function displayFrameChatGroup(idGroup){
+    
+    console.log(idGroup);
+    let chatbox = selectChatBox;
+    let boxChat = selectBoxChat;
+    let titleBox = selectTitleBox;
+    //tìm xem có tồn tại trong danh sách chat chưa
+    let haveExist =listChatting.find(x=>x.chatId===idGroup);
+    // Nếu chưa thì tạo mới
+    if (haveExist ===undefined){
+        listChatting.push({
+            chatId:idGroup,
+            titleChat:user.group[idGroup],
+            message:[]
+        });
+        haveExist= listChatting[listChatting.length-1]; 
+    };
+    //hiển thị khung chat
+    chatbox[0].setAttribute("class","chatBox display");
+    
+    // đặt id cho khung chat
+    chatbox[0].setAttribute("id",listChatting[listChatting.length-1].chatId);
+
+    // đăt title tin nhắn      
+    titleBox[0].innerText= haveExist.titleChat;
+
+    // điền tin nhắn
+    haveExist.message.forEach(x=>{
+        if (x.status==='1')  boxChat[0].innerHTML += `<div class="stl_mes send" ><div></div><span>`+ x.content+`</span></div>`;
+        else {
+            boxChat[0].innerHTML += `<div class="stl_mes recieve"><span>`+ x.content+`</span></div><div></div>`;
+        }
+    });
+    //tắt nút thêm nhóm
+    offPlayout('btnAddGroup','display-none');
+    //tự động cuộn xuống nội dung mới 
+    boxChat[0].scrollTop = boxChat[0].scrollHeight;
+
+    console.log(getInfoGroup(idGroup));
+    let infoG =getInfoGroup(idGroup);
+         
+     // xử lí hiển thị thông tin 
+     let btnDisplayInfor = document.getElementById('btnDisplayInfo');
+    btnDisplayInfor.addEventListener("click",e=>{
+        if(true){
+            insertInfoGroup(infoG);
+            onDisplayPlayout('wrapperInfo','display-none',1);
+        }else{
+            
+            insertInfoFriend(infoF);
+            onDisplayPlayout('wrapperInfo','display-none',1);
+        }
+        
+    });
+}
+// hiển thị khung chat 
+function displayFrameChatFriend(eFriend){
     let infoF = getInfoFriend(eFriend);
     let chatbox = selectChatBox;
     let boxChat = selectBoxChat;
     let titleBox = selectTitleBox;
     //dat lai hien thi khung chat
     boxChat[0].innerHTML="";
+
     let objKey = Object.keys(user.friend);
     // search danh sach chat co được tạo chưa
-    let haveExist =listChatting.find(x=>x.chatId===idnode);
+    let haveExist =listChatting.find(x=>x.chatId===eFriend);
     // Nếu chưa thì tạo mới
-    if (haveExist ==undefined){
-        let emailFriend = objKey.find(email=>email=== eFriend);
+    if (haveExist ===undefined){
         listChatting.push({
-            chatId:emailFriend+'chatti',
-            titleChat:user.friend[emailFriend],
+            chatId:eFriend,
+            titleChat:user.friend[eFriend],
             message:[]
         });
          haveExist= listChatting[listChatting.length-1]; 
@@ -342,10 +412,17 @@ function displayFrameChat(idnode,typeChat){
      //tự động cuộn xuống nội dung mới 
      boxChat[0].scrollTop = boxChat[0].scrollHeight;
         
+     // xử lí hiển thị thông tin 
     let btnDisplayInfor = document.getElementById('btnDisplayInfo');
     btnDisplayInfor.addEventListener("click",e=>{
-        insertInfoFriend(infoF,idChatting);
-        onDisplayPlayout('inforFriend','display-none',1);
+        if(false){
+            insertInfoGroup(infoF);
+            onDisplayPlayout('wrapperInfo','display-none',1);
+        }else{
+            
+            insertInfoFriend(infoF);
+            onDisplayPlayout('wrapperInfo','display-none',1);
+        }
         
     });
 }
@@ -363,11 +440,10 @@ function offDislayChat(){
 }
 
 // hàm hiển thị thông tin group hoặc friend
-function insertInfoFriend(info,idChatting){
+function insertInfoFriend(info){
     console.log(info);
-    let email = info.email +"10";
     let selectIdFromInfoFriendChat = document.getElementById("inforFriend");
-    let html =` <div><button onclick="offPlayout('inforFriend','display-none',1)">
+    let html =` <div><button onclick="offPlayout('wrapperInfo','display-none',1)">
                     <i class="fas fa-arrow-left"></i>
                 </button>
                 </div>
@@ -375,8 +451,54 @@ function insertInfoFriend(info,idChatting){
                 <div>Email: ${info.email}</div>
                 <div>Tuổi: ${info.age}</div>
                 <div>Kho lưu trữ:</div>
-                <div><button onclick="deleletFriend(${idChatting})" >Xóa bạn</button></div>`;
+                <div><button onclick="deleletFriend(${info.email})" >Xóa bạn</button></div>`;
     selectIdFromInfoFriendChat.innerHTML= html;
+}
+//hàm hiển thị thông tin nhóm 
+function insertInfoGroup(info){
+    console.log(info);
+    let selectIdFromInfoFriendChat = document.getElementById("inforFriend");
+    let keyGroup = Object.keys(info.members);
+    
+    let html =` <div><button onclick="offPlayout('wrapperInfo','display-none',1)">
+                    <i class="fas fa-times-circle"></i>
+                </button></div>
+                <div>Tên nhóm: ${info.groupName}<hr></div>
+                <div>Số thành viên : ${keyGroup.length}<hr></div>
+                <div>ID nhóm: ${info.groupId}<hr></div>
+                <div>Danh sách thành viên<hr></div>
+                <div><button onclick="addMember(${info.groupId})">Thêm thành viên</button><hr></div>
+                <div><button>Xóa thành viên</button><hr></div>
+                <div><button>Rời nhóm</button><hr></div>`;
+    if(info.manager===user.email) html +=`<div><button>Xóa nhóm</button></div>`;
+    selectIdFromInfoFriendChat.innerHTML= html;
+}
+// thêm member 
+function addMember(idGroup){
+    
+    idGroup = idGroup.getAttribute('id');
+    console.log(idGroup);
+    onDisplayPlayout("idAddMember","display-none",1);
+    let selectFrmAddMember = document.getElementById("frmAddMember");
+    selectFrmAddMember.addEventListener("submit",e=>{
+        e.preventDefault();
+        $.ajax({
+            url: url +"/groups/add",
+            type:"GET",
+            headers:{Authorization:author},
+            data:   $('#frmAddMember').serialize()+"&groupId="+idGroup+"&email="+user.email,
+            dataType:"text",
+            success: function(res) {
+                console.log(getInfoGroup(idGroup));
+                if(res=="SUCCESS")alert("Đã thêm bạn thành công")
+                else alert ("Người dùng không tồn tại hoặc đã là thành viên");
+                offPlayout('idAddMember','display-none',1);
+            },
+             error: () =>{
+                alert("Incorrect!");
+             }
+        });
+    });
 }
 //Hiển thị form cập nhật
 function onDisplayFormUpdate(){
@@ -404,9 +526,7 @@ function onDisplayPlayout(idPlayout,classDel,zIndex){
     var attributeClassNew =  attributeClass.replace(classDel,"");
     if (attributeClass===attributeClassNew) attributeClassNew +=classDel;
     document.getElementById(idPlayout).setAttribute("class",attributeClassNew);
-
     if(zIndex===1)overlay[0].style.display='block';
-
 }
 // tắt playout
 function offPlayout(idPlayout,classInsert){
@@ -519,7 +639,6 @@ function deleteGroup(node){
          }
     });
 }
-
 // xử lí thêm bạn 
 selectIdFrmAddFriend.addEventListener("submit",e =>{
     e.preventDefault();
@@ -541,14 +660,11 @@ selectIdFrmAddFriend.addEventListener("submit",e =>{
             alert("Incorrect!");
          }
     });
-    //  đóng form 
 });
 // xử lí xóa bạn
 function deleletFriend(node){
     let keyGroup = Object.keys(user.friend);
     let emailF = node.getAttribute("id"); // id của danh sách bạn
-    
-    emailF = emailF.slice(0,emailF.length-6); // sử lí lại cái email
     $.ajax({
         url: url +"/friends/remove",
         type:"DELETE",
@@ -558,7 +674,6 @@ function deleletFriend(node){
         success: function(res) {
             getData();
             alert("Xóa bạn thành công");
-            displayListFriend();  
         },
          error: () =>{
             alert("Incorrect!");
@@ -582,4 +697,22 @@ function getInfoFriend(emailF){
              }
         });
     return friendInfo;
+}
+//lấy thông tin nhóm chat
+function getInfoGroup(idGroup){
+    let groupInfo;
+        $.ajax({
+            url:url+"/groups/profile/"+idGroup,
+            type:"GET",
+            async:false,
+            headers:{Authorization:author},
+            dataType:"text",
+            success: function(res) {
+                groupInfo = JSON.parse(res);
+            },
+             error: () =>{
+                alert("Incorrect!");
+             }
+        });
+    return groupInfo;
 }
