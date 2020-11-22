@@ -318,11 +318,11 @@ function insertInfoFriend(info){
                     <i class="fas fa-arrow-left"></i>
                 </button>
                 </div>
-                <div>Tên: ${info.userName}</div>
-                <div>Email: ${info.email}</div>
-                <div>Tuổi: ${info.age}</div>
-                <div>Kho lưu trữ:</div>
-                <div><button onclick="deleletFriend(${info.email})" >Xóa bạn</button></div>`;
+                <div>Tên: ${info.userName}<hr></div>
+                <div>Email: ${info.email}<hr></div>
+                <div>Tuổi: ${info.age}<hr></div>
+                <div>Kho lưu trữ:<hr></div>
+                <div><button onclick="deleletFriend(${info.email})" >Xóa bạn</button><hr></div>`;
     selectIdFromInfoFriendChat.innerHTML= html;
 }
 //hàm hiển thị thông tin nhóm 

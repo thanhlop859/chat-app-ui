@@ -45,7 +45,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    border-right: 0.1rem solid #bbb;
+    border: 0.1rem solid rgb(87,189,228);
 }
 .logo >div{
     margin: 1rem;
@@ -67,7 +67,8 @@ body{
 }
 
 .aside {
-    border: 0.1rem solid #ddd;
+    border: 0.1rem solid rgb(87,189,228);
+
     height: 100%;
     width: 30%;
 }
@@ -91,17 +92,20 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #4CAF50;
+    background-image: linear-gradient(to right, #29FFDF, #29D5FF, #29FFDF, #29D5FF, #29FFDF);
+    background-size: 350%;
     width: 100%;
     height: 10%;
     position: relative;
+    border: 0.3rem solid white;
 }
-
+.headerBox button{
+    background: none;
+} 
 .wrap-box-chat {
     width: 100%;
     height: 70%;
-    border-top: 0.1rem solid #ddd;
-
+    border-top: 0.1rem solid rgb(15, 200, 247);
 }
 
 
@@ -118,8 +122,10 @@ body{
 .title-box {
     text-align: center;
     flex-grow: 1;
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: #EFEFEF;
+    letter-spacing: 0.2rem;
+    font-family: Didot;
 }
 
 .iconBox {
@@ -143,6 +149,7 @@ body{
     top: 5rem;
     right: 0.2rem;
     background-color: #fff;
+    border: 0.1rem solid rgb(87,189,228);
     width: 40vh;
 }
 .form-info-friend div:first-child{
@@ -166,7 +173,7 @@ body{
     height: 10%;
     width: 100%;
     display: flex;
-    border-bottom: 0.1rem solid #ddd;
+    border-bottom: 0.1rem solid rgb(15, 200, 247);
     align-items: center;
 
     padding: 0.7rem;
@@ -174,12 +181,17 @@ body{
 .status-user-box >div{
     margin:1rem;
 }
+.status-user-box .picture{
+    border: 0.1rem solid black;
+}
 #status{
     font-size: 0.7rem;
 }
 #nameUser{
+    font-family: Copperplate;
     color: rgb(5, 5, 8);
-    font-size: 1.6rem;
+    font-size: 1.7rem;
+    letter-spacing: 0.3rem;
 }
 .search-box{
     height: 10%;
@@ -211,7 +223,7 @@ body{
 }
 .alert-box{
     display: block;
-    border: 0.1rem solid black;
+    border: 0.1rem solid  rgb(15, 200, 247);
 }
 .alert-box button{
     padding: 0.4rem;
@@ -267,7 +279,7 @@ body{
     background:none;
 }
 button.accept{
-    color: green;
+    color:rgb(87,189,228);
     size: 1rem;
 }
 button.cancel{
@@ -312,7 +324,7 @@ input[type=password]:focus {
 }
 /* Set a style for all buttons */
 button {
-    background-color: #4CAF50;
+    background-color: rgb(87,189,228);
     color: white;
     padding: 1rem 1rem;
     border: none;
@@ -387,7 +399,7 @@ button:hover {
     overflow: scroll;
     display: flex;
     flex-direction: column;
-    background-color: #fff;
+    background-color: #f2fafd;
 }
 .box-chat >div{
     display: flex;
@@ -398,7 +410,7 @@ button:hover {
 .stl_mes  >span{
     max-width: 50%;
     border-radius: 1rem;
-    border: 0.1rem solid #ddd;
+    border: 0.1rem solid  rgb(15, 200, 247);
     margin:1rem;
     text-align: left;
     padding: 1rem;
@@ -409,19 +421,23 @@ button:hover {
     width: 100%;
     height: 20vh;
     bottom: 0rem;
-    border-top: 0.1rem solid #ddd;
+    border-top: 0.1rem solid  rgb(15, 200, 247);
+    border-bottom: 0.1rem solid  rgb(15, 200, 247);
+
 }
 
 .custum {
     width: 100%;
     height: 30%;
-    border-bottom: 0.1rem solid #ddd;
+    border-bottom: 0.1rem solid  rgb(15, 200, 247);
 }
 
 .input-box div:last-child {
     width: 100%;
     height: 65%;
-    
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .input-box div:last-child input[type=text] {
@@ -429,6 +445,11 @@ button:hover {
     height: 100%;
     background-color: #fff;
 }
+.input-box div:last-child button{
+    width: 10%;
+    height: 100%;
+}
+
 .upload-file {
     opacity: 0;
     position: absolute;
@@ -448,7 +469,6 @@ button:hover {
         position: fixed;
         height: 8%;
         width: 50%;
-        bottom: 0px;
         left: 40%;
         margin: 0.8rem;
     }
