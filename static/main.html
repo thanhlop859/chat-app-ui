@@ -135,17 +135,31 @@
                
                 </div>
             </div>
-            
+            <!-- form thêm member -->
             <div id='idAddMember' class="box-hidden alert-box display-none">
                 <form id="frmAddMember">
                     <label for="addMember">Thêm thành viên mới</label>
-                    <input type="text" name="friendEmail" id="" placeholder="Nhập email của member">
+                    <hr>
+                    <input type="text" name="friendEmail" placeholder="Nhập email của member">
+                    <hr>
                     <button type="reset" onclick="offPlayout('idAddMember','display-none')">Hủy</button>
                     <button type="submit">Thêm</button>
                 </form>
             </div>
+            <!-- form xóa member -->
+            <div id='idDeleteMember' class="box-hidden alert-box display-none">
+                <form id="frmDeleteMember">
+                    <label for="member">Nhập email của thành viên cần xóa</label>
+                    <hr>
+                    <input type="text" name="member"  placeholder="Nhập email của member">
+                    <hr>
+                    <button type="reset" onclick="offPlayout('idDeleteMember','display-none')">Hủy</button>
+                    <button type="submit">Xóa</button>
+                    
+                </form>
+            </div>
              <!-- phần chat-->
-             <div class="chatBox">
+             <div class="chatBox ">
                 <div class="headerBox">
                     <button class="iconBox" onclick="offDislayChat()"><i class="fas fa-arrow-left"></i></button>
                     <div class="title-box">Chọn bạn để chat</div>

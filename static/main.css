@@ -210,8 +210,13 @@ body{
     margin: 2rem;
 }
 .alert-box{
+    display: block;
     border: 0.1rem solid black;
-    height: 20%;
+}
+.alert-box button{
+    padding: 0.4rem;
+    margin: 0.3rem;
+    width: 5rem;
 }
 /* form chỉnh sửa thông tin người dùng*/
 .fromUpdate {
@@ -547,7 +552,7 @@ button:hover {
         max-width: 80%;
     }
     .alert-box{
-        height: 25%;
+        display: block;
     }
 }
 
