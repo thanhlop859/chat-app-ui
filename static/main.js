@@ -50,7 +50,6 @@ function getData(){
         success: function(res) {
             user = JSON.parse(res);
            selectNameUser.innerText = user.userName;
-           // getData(urlget);
         },
          error: () =>{
             alert("Incorrect!");
@@ -65,11 +64,16 @@ function scriptDisplay(){
     onDisplayListChat(); 
     onDisplayPlayout('btnAddGroup','display-none',0);
 }
-// đặt tên và trang thái cho web
-function setStatus(status){
-    selectStatus.innerText="Đang "+status;
-    
-    console.log("You are now connected to the network.");
+
+// đặt tên và trang thái cho web selectStatus.innerText="Đang offline"
+window.addEventListener('online',setStatus);
+window.addEventListener('offline',setStatus);
+function setStatus(event){
+    if(navigator.onLine){
+        console.log("online");
+    }else{
+        console.log("offline");
+    }
 }
 
 //hàm hiển thị danh sách bạn
@@ -119,9 +123,9 @@ function displayListGroup(){
 
     keyGroup.forEach(e=>{
         idNew = e+'agroup'
-        listHTML += `<li class='friend' id="${idNew}">
+        listHTML += `<li class='friend' id="${idNew}"  onclick="groupOnClick(${idNew})" >
         <div class='picture'></div>
-        <div class='nameFriend' onclick="groupOnClick(${idNew},'kieuban')" >${user.group[e]}</div>
+        <div class='nameFriend'>${user.group[e]}</div>
         </li>`;
     });
     boxMenu(listHTML);
@@ -161,7 +165,6 @@ function displayListRequest(){
         </button>
         </li>`});
     boxMenu(listHTML);  
-    onDisplayPlayout('btnAddGroup','display-none',0);
 }
 // hàm hiển thị thông tin cá nhân và đăng xuất
 function displayProfile(){
@@ -200,33 +203,33 @@ function groupOnClick(nodeGroup){
     }
     //set trạng thai fucus
     nodeGroup.setAttribute("class","friend active");
-    let idGroup = nodeGroup.getAttribute('id');
-    idGroup =idGroup.slice(0,idGroup.length-6);
-    console.log(idGroup);
-    displayFrameChatGroup(idGroup);
+    let groupId = nodeGroup.getAttribute('id');
+    groupId =groupId.slice(0,groupId.length-6);
+    displayFrameChatGroup(groupId);
 }
 
 /*****************************************************************/
-
+var currentGroupID ="" ;
 // hiển thị khung chat cho group
-function displayFrameChatGroup(idGroup){
+function displayFrameChatGroup(groupId){
     //tìm xem có tồn tại trong danh sách chat chưa
-    let haveExist =listChatting[idGroup];
+    let haveExist =listChatting[groupId];
+    currentGroupID = groupId;
     // Nếu chưa thì tạo mới
     if (haveExist ===undefined){
-        listChatting[idGroup]={ 
+        listChatting[groupId]={ 
             type:"group",
-            titleChat:user.group[idGroup],
+            titleChat:user.group[groupId],
             message:[]
         };
-        haveExist= listChatting[idGroup]; 
+        haveExist= listChatting[groupId]; 
     };
 
     // đặt id cho khung chat
-    idGroup +="aframe";
-    selectChatBox[0].setAttribute("id",idGroup);  
-    idGroup = document.getElementById(idGroup);
-    displayFrameChat(idGroup);
+    groupId +="aframe";
+    selectChatBox[0].setAttribute("id",groupId);  
+    groupId = document.getElementById(groupId);
+    displayFrameChat(groupId);
 }
 // hiển thị khung chat 
 function displayFrameChatFriend(eFriend){
@@ -260,10 +263,7 @@ function displayFrameChat(idnode){
     let type =listChatting[idchat].type;
      // điền tin nhắn
     listChatting[idchat].message.forEach(x=>{
-        if (x.status==='1')  selectBoxChat[0].innerHTML += `<div class="stl_mes send" ><div></div><span>`+ x.content+`</span></div>`;
-        else {
-            selectBoxChat[0].innerHTML += `<div class="stl_mes recieve"><span>`+ x.content+`</span></div><div></div>`;
-        }
+        insertMessage(x.content,x.status);
     });
      //tắt nút thêm nhóm
      offPlayout('btnAddGroup','display-none');
@@ -280,7 +280,6 @@ function displayFrameChat(idnode){
  function inforOnclick(idchat,type){
     idchat = idchat.getAttribute('id');
     idchat =idchat.slice(0,idchat.length-6);
-    console.log(idchat);
     let info;
     if(type ==='group'){
          info  =getInfoGroup(idchat);
@@ -338,45 +337,43 @@ function insertInfoGroup(info){
                 <div>Số thành viên : ${keyGroup.length}<hr></div>
                 <div>ID nhóm: ${info.groupId}<hr></div>
                 <div>Danh sách thành viên<hr></div>
-                <div><button onclick="addMember(${info.groupId})">Thêm thành viên</button><hr></div>
-                <div><button onclick="deleteMember(${info.groupId})">Xóa thành viên</button><hr></div>
-                <div><button onclick="leaveGroup(${info.groupId})">Rời nhóm</button><hr></div>`;
-    if(info.manager===user.email) html +=`<div><button onclick="deleteGroup(${info.groupId})">Xóa nhóm</button></div>`;
+                <div><button onclick="addMember(${info.groupId+'agroup'})">Thêm thành viên</button><hr></div>
+                <div><button onclick="deleteMember(${info.groupId+'agroup'})">Xóa thành viên</button><hr></div>
+                <div><button onclick="leaveGroup(${info.groupId+'agroup'})">Rời nhóm</button><hr></div>`;
+    if(info.manager===user.email) html +=`<div><button onclick="deleteGroup(${info.groupId+'agroup'})">Xóa nhóm</button></div>`;
     selectIdFromInfoFriendChat.innerHTML= html;
 }
 //xử lí xóa thành viên
-function deleteMember(groupId){
-    groupId = groupId.getAttribute("id");
+function deleteMember(){
     onDisplayPlayout("idDeleteMember","display-none",1);
-    let selectFrmAddMember = document.getElementById("frmDeleteMember");
-    selectFrmAddMember.addEventListener("submit",e=>{
-        e.preventDefault();
-        $.ajax({
-            url: url +"/groups/delete/members",
-            type:"DELETE",
-            headers:{Authorization:author},
-            data:   $('#frmDeleteMember').serialize()+"&groupId="+groupId+"&email="+user.email,
-            dataType:"text",
-            success: function(res) {
-                console.log(getInfoGroup(groupId));
-                if(res=="SUCCEED")alert("Đã xóa thành viên")
-                else alert ("Người dùng không tồn tại hoặc bạn không đủ quyền để xóa");
-                offPlayout('idAddMember','display-none',1);
-            },
-             error: () =>{
-                alert("Incorrect!");
-             }
-        });
-    });
 }
+let selectFrmDeleteMember = document.getElementById("frmDeleteMember");
+selectFrmDeleteMember.addEventListener("submit",e=>{
+    e.preventDefault();
+    $.ajax({
+        url: url +"/groups/delete/members",
+        type:"DELETE",
+        headers:{Authorization:author},
+        data:   $('#frmDeleteMember').serialize()+"&groupId="+currentGroupID+"&email="+user.email,
+        dataType:"text",
+        success: function(res) {
+            console.log(getInfoGroup(currentGroupID));
+            if(res=="SUCCEED")alert("Đã xóa thành viên")
+            else alert ("Người dùng không tồn tại hoặc bạn không đủ quyền để xóa");
+            offPlayout('idAddMember','display-none',1);
+        },
+         error: () =>{
+            alert("Incorrect!");
+         }
+    });
+});
 // xử lí rời nhóm
-function leaveGroup(groupId){
-    groupId = groupId.getAttribute("id");
+function leaveGroup(){
     $.ajax({
         url: url +"/groups/leave",
         type:"POST",
         headers:{Authorization:author},
-        data:   "groupId="+groupId+"&email="+user.email,
+        data:   "groupId="+currentGroupID+"&email="+user.email,
         dataType:"text",
         success: function(res) {
             if(res=="SUCCEED")alert("Bạn đã rời nhóm")
@@ -388,21 +385,24 @@ function leaveGroup(groupId){
     });
 }
 // thêm member 
-function addMember(idGroup){
-    
-    idGroup = idGroup.getAttribute('id');
+function addMember(groupId){
+    console.log(groupId);
+    groupId = groupId.getAttribute('id');
+    groupId =groupId.slice(0,groupId.length-6);
+
     onDisplayPlayout("idAddMember","display-none",1);
-    let selectFrmAddMember = document.getElementById("frmAddMember");
-    selectFrmAddMember.addEventListener("submit",e=>{
+}
+let selectFrmAddMember = document.getElementById("frmAddMember");
+selectFrmAddMember.addEventListener("submit",e=>{
         e.preventDefault();
         $.ajax({
             url: url +"/groups/add",
             type:"GET",
             headers:{Authorization:author},
-            data:   $('#frmAddMember').serialize()+"&groupId="+idGroup+"&email="+user.email,
+            data:   $('#frmAddMember').serialize()+"&groupId="+currentGroupID+"&email="+user.email,
             dataType:"text",
             success: function(res) {
-                console.log(getInfoGroup(idGroup));
+                console.log(getInfoGroup(currentGroupID));
                 if(res=="SUCCESS")alert("Đã thêm bạn thành công")
                 else alert ("Người dùng không tồn tại hoặc đã là thành viên");
                 offPlayout('idAddMember','display-none',1);
@@ -412,12 +412,12 @@ function addMember(idGroup){
              }
         });
     });
-}
+
 //Hiển thị form cập nhật
 function onDisplayFormUpdate(){
         let formUpdate = selectFormUpdate;
         let overlay =selectOverlay;
-        formUpdate[0].style.display="grid";
+        formUpdate[0].style.display="block";
         //set thông tin
         
         document.getElementsByName('userName')[0].setAttribute("placeholder",user.userName);
@@ -626,3 +626,105 @@ function getInfoGroup(idGroup){
         });
     return groupInfo;
 }
+// sự kiện gửi tin 
+let selectSend = document.getElementById('send');
+let selectMessage = document.getElementById("message");
+selectSend.addEventListener('click',e=>{    
+    let message= selectMessage.value;
+    selectMessage.value ="";
+    insertMessage(message,0);
+    // gửi tin
+});
+selectMessage.addEventListener('keyup',e=>{    
+    if(e.keyCode =="13"){
+        let message= selectMessage.value;
+        selectMessage.value ="";
+        insertMessage(message,0);    
+        //gửi tin
+    }
+    
+});
+function insertMessage(mes,status,name){   
+    
+    if (status===0) { // status = 0 là gửi
+        selectBoxChat[0].innerHTML += `<div class="stl_mes"><span class="send">`+ mes+`</span></div>`;
+    } else {
+        selectBoxChat[0].innerHTML += `<div class="stl_mes"><span class="receive">`+ mes+`</span></div>`;
+    }
+      //tự động cuộn xuống nội dung mới 
+      selectBoxChat[0].scrollTop = selectBoxChat[0].scrollHeight; 
+}
+
+
+// /*****************************************************************/ 
+// const urlchat = 'https://chatapp-kkt.herokuapp';
+// const sendBtn = document.getElementById('send');
+// const mes = document.getElementById('message');
+// const receive = document.getElementById('receive');
+// const logout = document.getElementById('logout');
+
+// // phần chát
+
+// let stompClient = null;
+// const email = user.email;
+// console.log("email ne:   +++++: "+email);
+
+// const connect = ()  => {
+
+//     var socket = new SockJS(urlchat+'/websocket-chat');
+//     stompClient = Stomp.over(socket);
+
+//     stompClient.connect({}, onConnected, onError);
+// }
+// connect();
+
+
+// function onConnected() {
+//     // Subscribe to the Public Topic
+//   stompClient.subscribe(urlchat+'/user/queue/newMember',  ( data) => data);
+
+//  stompClient.subscribe(urlchat+'/topic/newMember', data => console.log("data2: " + data.body));
+
+
+
+//     // Tell your username to the server
+//   sendMessage(urlchat+'/app/register', email);
+
+//     stompClient.subscribe(urlchat+`/user/${email}/msg`,  data =>{
+//     console.log(`-------- received message:\n`+ data.body+`\n--------received message!!!!`);
+//     displayMessage(data);
+//   });
+// }
+
+// function onError(error) {
+//     console.log('Could not connect to WebSocket server. Please refresh this page to try again!');
+// }
+
+// function sendMessage(url, message) {
+//     stompClient.send(url, {}, message);
+// }
+
+
+// const displayMessage = data =>{
+// let mess = JSON.parse(data.body);
+// console.log(" jhdsjfldsk:  "+mess);
+// receive.innerHTML = `from: `+mess.sender+`\n message: `+ mess.message+"\n to: "+mess.recipient;
+// }
+
+
+// const onDisconnect = () =>{
+//   sendMessage(urlchat+'/app/unregister', email);
+//   stompClient.disconnect();
+// }
+
+// sendBtn.addEventListener('click', () => {
+//   let messa = mes.value;
+//   sendMessage(urlchat+'/app/message', JSON.stringify({
+//     recipient: 'tester',
+//     sender: email,
+//     message: messa
+//   }));
+//   mes.innerHTML = '';
+// });
+
+// logout.addEventListener('click', onDisconnect);
