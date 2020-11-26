@@ -1,4 +1,5 @@
-const url = "https://chatapp-kkt.herokuapp.com";
+//const url = "https://chatapp-kkt.herokuapp.com";
+const url = 'https://secret-brook-88276.herokuapp.com';
 var user;
 var author;
 var listChatting={};
@@ -32,6 +33,7 @@ function getCookie() {
        dataType:"text",
        success: function(output,status,res) {
         author =res.getResponseHeader("Authorization");
+        alert("thanh cong");
         getData();
 
        }, 
@@ -44,12 +46,13 @@ function getData(){
     $.ajax({
         url:url+"/users/tester",
         type:"GET",
-        async:false,
+       async:false,
         headers:{Authorization:author},
         dataType:"text",
         success: function(res) {
             user = JSON.parse(res);
            selectNameUser.innerText = user.userName;
+           console.log(user);
         },
          error: () =>{
             alert("Incorrect!");
@@ -656,75 +659,75 @@ function insertMessage(mes,status,name){
 }
 
 
-// /*****************************************************************/ 
-// const urlchat = 'https://chatapp-kkt.herokuapp';
-// const sendBtn = document.getElementById('send');
-// const mes = document.getElementById('message');
-// const receive = document.getElementById('receive');
-// const logout = document.getElementById('logout');
+/*****************************************************************/ 
+const email = user.email;
+const sendBtn = document.getElementById('send');
+const mes = document.getElementById('message');
+const receive = document.getElementById('receive');
+const logout = document.getElementById('logout');
 
-// // phần chát
+// phần chát
 
-// let stompClient = null;
-// const email = user.email;
-// console.log("email ne:   +++++: "+email);
+let stompClient = null;
 
-// const connect = ()  => {
+console.log("email ne:   +++++: "+email);
 
-//     var socket = new SockJS(urlchat+'/websocket-chat');
-//     stompClient = Stomp.over(socket);
+const connect = ()  => {
 
-//     stompClient.connect({}, onConnected, onError);
-// }
-// connect();
+    var socket = new SockJS(url+'/websocket-chat');
+    stompClient = Stomp.over(socket);
 
-
-// function onConnected() {
-//     // Subscribe to the Public Topic
-//   stompClient.subscribe(urlchat+'/user/queue/newMember',  ( data) => data);
-
-//  stompClient.subscribe(urlchat+'/topic/newMember', data => console.log("data2: " + data.body));
+    stompClient.connect({}, onConnected, onError);
+}
+connect();
 
 
+function onConnected() {
+    // Subscribe to the Public Topic
+  stompClient.subscribe(url+'/user/queue/newMember',  ( data) => data);
 
-//     // Tell your username to the server
-//   sendMessage(urlchat+'/app/register', email);
-
-//     stompClient.subscribe(urlchat+`/user/${email}/msg`,  data =>{
-//     console.log(`-------- received message:\n`+ data.body+`\n--------received message!!!!`);
-//     displayMessage(data);
-//   });
-// }
-
-// function onError(error) {
-//     console.log('Could not connect to WebSocket server. Please refresh this page to try again!');
-// }
-
-// function sendMessage(url, message) {
-//     stompClient.send(url, {}, message);
-// }
+ stompClient.subscribe(url+'/topic/newMember', data => console.log("data2: " + data.body));
 
 
-// const displayMessage = data =>{
-// let mess = JSON.parse(data.body);
-// console.log(" jhdsjfldsk:  "+mess);
-// receive.innerHTML = `from: `+mess.sender+`\n message: `+ mess.message+"\n to: "+mess.recipient;
-// }
+
+    // Tell your username to the server
+  sendMessage(url+'/app/register', email);
+
+    stompClient.subscribe(urlchat+`/user/${email}/msg`,  data =>{
+    console.log(`-------- received message:\n`+ data.body+`\n--------received message!!!!`);
+    displayMessage(data);
+  });
+}
+
+function onError(error) {
+    console.log('Could not connect to WebSocket server. Please refresh this page to try again!');
+}
+
+function sendMessage(url, message) {
+    stompClient.send(url, {}, message);
+}
 
 
-// const onDisconnect = () =>{
-//   sendMessage(urlchat+'/app/unregister', email);
-//   stompClient.disconnect();
-// }
+const displayMessage = data =>{
+let mess = JSON.parse(data.body);
+console.log(" jhdsjfldsk:  "+mess);
+receive.innerHTML = `from: `+mess.sender+`\n message: `+ mess.message+"\n to: "+mess.recipient;
+}
 
-// sendBtn.addEventListener('click', () => {
-//   let messa = mes.value;
-//   sendMessage(urlchat+'/app/message', JSON.stringify({
-//     recipient: 'tester',
-//     sender: email,
-//     message: messa
-//   }));
-//   mes.innerHTML = '';
-// });
 
-// logout.addEventListener('click', onDisconnect);
+const onDisconnect = () =>{
+  sendMessage(url+'/app/unregister', email);
+  stompClient.disconnect();
+}
+
+sendBtn.addEventListener('click', () => {
+  let messa = mes.value;
+  sendMessage(url+'/app/message', JSON.stringify({
+    recipient: 'tester',
+    sender: email,
+    message: messa
+  }));
+  mes.innerHTML = '';
+});
+
+//logout.addEventListener('click', onDisconnect);
