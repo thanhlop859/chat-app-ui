@@ -1,38 +1,51 @@
 let BoxChat =document.getElementsByClassName('box-chat');
 
 //hàm hiển thị thông tin nhóm 
-function insertInfoGroup(info){
-    console.log(info);
+function insertInfoGroup(){
+    console.log(infogroup);
     let selectIdFromInfoFriendChat = document.getElementById("inforFriend");
-    let keyGroup = Object.keys(info.members);
+    let keyGroup = Object.keys(infogroup.members);
     
     let html =` <div><button onclick="offPlayout('wrapperInfo','display-none',1)">
                     <i class="fas fa-times-circle"></i>
                 </button></div>
-                <div>Tên nhóm: ${info.groupName}<hr></div>
+                <div>Tên nhóm: ${infogroup.groupName}<hr></div>
                 <div>Số thành viên : ${keyGroup.length}<hr></div>
-                <div>ID nhóm: ${info.groupId}<hr></div>
-                <div>Danh sách thành viên<hr></div>
-                <div><button onclick="addMember(${info.groupId+'agroup'})">Thêm thành viên</button><hr></div>
-                <div><button onclick="deleteMember(${info.groupId+'agroup'})">Xóa thành viên</button><hr></div>
-                <div><button onclick="leaveGroup(${info.groupId+'agroup'})">Rời nhóm</button><hr></div>`;
-    if(info.manager===user.email) html +=`<div><button onclick="deleteGroup(${info.groupId+'agroup'})">Xóa nhóm</button></div>`;
+                <div>ID nhóm: ${infogroup.groupId}<hr></div>
+                <div><button onclick="displayListMember()">Danh sách thành viên</button> <hr></hrr></div>
+                <div><button onclick="addMember(${infogroup.groupId+'agroup'})">Thêm thành viên</button><hr></div>
+                <div><button onclick="deleteMember(${infogroup.groupId+'agroup'})">Xóa thành viên</button><hr></div>
+                <div><button onclick="leaveGroup(${infogroup.groupId+'agroup'})">Rời nhóm</button><hr></div>`;
+    if(infogroup.manager===user.email) html +=`<div><button onclick="deleteGroup(${infogroup.groupId+'agroup'})">Xóa nhóm</button></div>`;
     selectIdFromInfoFriendChat.innerHTML= html;
 }
+function displayListMember(){
+    let listMember= document.getElementById('listMember');
+    onDisplayPlayout('listMember','display-none',1);
+    let html=`<div><button onclick="offPlayout('listMember','display-none',1)">
+    <i class="fas fa-times-circle"></i>
+</button></div><h4 class="friend">Danh sách thành viên</h4><ul>`;
+    let key = Object.keys(infogroup.members);
+    for(let i=0;i <key.length;i++){
+        html += `<li>${infogroup.members[key[i]]}</li>`
+    }
+    html+="</ul>"
 
+    listMember.innerHTML =html;
+}
 // hàm hiển thị thông tin group hoặc friend
-function insertInfoFriend(info){
-    console.log(info);
+function insertInfoFriend(){
+    console.log(infofriend);
     let selectIdFromInfoFriendChat = document.getElementById("inforFriend");
     let html =` <div><button onclick="offPlayout('wrapperInfo','display-none',1)">
                     <i class="fas fa-arrow-left"></i>
                 </button>
                 </div>
-                <div>Tên: ${info.userName}<hr></div>
-                <div>Email: ${info.email}<hr></div>
-                <div>Tuổi: ${info.age}<hr></div>
+                <div>Tên: ${infofriend.userName}<hr></div>
+                <div>Email: ${infofriend.email}<hr></div>
+                <div>Tuổi: ${infofriend.age}<hr></div>
                 <div>Kho lưu trữ:<hr></div>
-                <div><button onclick="deleletFriend(${info.email})" >Xóa bạn</button><hr></div>`;
+                <div><button onclick="deleletFriend(${infofriend.email})" >Xóa bạn</button><hr></div>`;
     selectIdFromInfoFriendChat.innerHTML= html;
 }
 // chèn tin vào khung

@@ -17,10 +17,27 @@ selectIdFrmUpdateInfo.addEventListener("submit",e =>{
         success: function(res) {
             getData();
             alert("cập nhật thành công");
-            offDisplayFormUpdate()
+            offDisplayFormUpdate();
         },
          error: () =>{
             alert("Incorrect!");
          }
     });
 });
+// hàm hiển thị thông tin cá nhân và đăng xuất
+function displayProfile(){
+    let listFriend = selectListFriend;
+    listFriend[0].style.display="none";
+    let boxInfoUser = selectBoxInfoUser;
+    boxInfoUser[0].style.display ="flex";
+    document.getElementById('myName').innerText = "Tên : "+user.userName;
+    document.getElementById('myAge').innerText = "Tuổi : "+user.age;
+    let gt;
+    if(user.gender==="FEMALE") gt = "Nữ"
+    else gt = "Nam";
+    document.getElementById("myGender").innerText = "Giới tính : "+gt;
+    document.getElementById('myEmail').innerText = "Địa chỉ Email : "+user.email;
+   
+    offPlayout('btnAddGroup','display-none',0);// tắt nút thêm nhóm
+
+}

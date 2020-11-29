@@ -5,6 +5,7 @@ const selectBoxChat =document.getElementsByClassName('box-chat');
 const selectFormUpdate=document.getElementsByClassName("fromUpdate");
 const selectOverlay =document.getElementsByClassName('overlay');
 const selectListFriend = document.getElementsByClassName("list-friend");
+const selectNameUser = document.getElementById("nameUser");
 
 
 // hiển thị khung chat cho group
@@ -101,10 +102,14 @@ function displayListFriend(){
         </li>`;
     });
     boxMenu(listHTML);   
+    onDisplayPlayout('btnAddGroup','display-none',0);
+
 }
 
 // hiển thị danh sách bạn đang chat 
 function onDisplayListChat(){
+    selectNameUser.innerText = user.userName;
+
     let idchat = Object.keys(listChatting);
     let html="";
     idchat.forEach(x =>{
@@ -113,6 +118,8 @@ function onDisplayListChat(){
         <div class='nameFriend'>${listChatting[x].titleChat}</div>
         </li>` ;
     });
+    onDisplayPlayout('btnAddGroup','display-none',0);
+
     boxMenu(html);   
 }
 // hiển thị danh sách nhóm đã join
@@ -136,55 +143,40 @@ function displayListGroup(){
 function displayReceiveListRequest(){
     //create list request
     let keyRe = Object.keys(user.receivedFriendRequest);
-    let listHTML ="";
-    keyRe.forEach(function(e,i){
-        listHTML+=`<li class='friend'>
-        <div class='picture'></div>
-        <div class='nameFriend'>${user.receivedFriendRequest[e]}</div>
-        <button class="accept" onclick="acceptRequest(this)" id="${e}">
-            <i class="far fa-check-circle"></i>
-        </button >
-        <button class="cancel">
-            <i class="far fa-times-circle"></i>
-        </button>
-        </li>`});
+    let listHTML="";
+    if(keyRe.length===0){
+        listHTML +=`<h6 class="friend">Lời mời kết bạn: (rỗng)</h6>`;;
+    }else{
+        listHTML =`<h6 class="friend">Lời mời kết bạn</h6>`;
+        keyRe.forEach(function(e,i){
+            listHTML+=`<li class='friend'>
+            <div class='picture'></div>
+            <div class='nameFriend'>${user.receivedFriendRequest[e]}</div>
+            <button class="accept" onclick="acceptRequest(this)" id="${e}">
+                <i class="far fa-check-circle"></i>
+            </button >
+            <button class="cancel">
+                <i class="far fa-times-circle"></i>
+            </button>
+            </li>`});
+    }
+    onDisplayPlayout('btnAddGroup','display-none',0);
+    keyRe = Object.keys(user.friendRequest);
+    listHTML += `<h6 class="friend">Yêu cầu đã gửi</h6>`; 
+        keyRe.forEach(function(e,i){
+            listHTML+=`<li class='friend'>
+            <div class='picture'></div>
+            <div class='nameFriend'>${user.friendRequest[e]}</div>
+            <button class="cancel" id="${e}">
+                <i class="far fa-times-circle"></i>
+            </button>
+            </li>`});
     boxMenu(listHTML);  
-}
-
-//hiển thị danh sách những yêu cầu kết bạn
-function displayListRequest(){
-    //create list request
-    let keyRe = Object.keys(user.friendRequest);
-    let listHTML ="";
-    keyRe.forEach(function(e,i){
-        listHTML+=`<li class='friend'>
-        <div class='picture'></div>
-        <div class='nameFriend'>${user.friendRequest[e]}</div>
-        <button class="cancel" id="${e}">
-            <i class="far fa-times-circle"></i>
-        </button>
-        </li>`});
-    boxMenu(listHTML);  
-}
-// hàm hiển thị thông tin cá nhân và đăng xuất
-function displayProfile(){
-    let listFriend = selectListFriend;
-    listFriend[0].style.display="none";
-    let boxInfoUser = selectBoxInfoUser;
-    boxInfoUser[0].style.display ="flex";
-    document.getElementById('myName').innerText = "Tên : "+user.userName;
-    document.getElementById('myAge').innerText = "Tuổi : "+user.age;
-    document.getElementById("myGender").innerText = "Giới tính : "+user.gender;
-    document.getElementById('myEmail').innerText = "Địa chỉ Email : "+user.email;
-   
-    offPlayout('btnAddGroup','display-none',0);// tắt nút thêm nhóm
-
 }
 
 // hàm đóng khung chat lại
 function offDislayChat(){
     let  boxChat = selectBoxChat;
-    
     let chatBox = selectChatBox;
     let titleBox = selectTitleBox;
     chatBox[0].setAttribute("class","chatBox");
@@ -211,7 +203,7 @@ function onDisplayPlayout(idPlayout,classDel,zIndex){
     let overlay =selectOverlay;
     let attributeClass = document.getElementById(idPlayout).getAttribute("class");
     var attributeClassNew =  attributeClass.replace(classDel,"");
-    if (attributeClass===attributeClassNew) attributeClassNew +=classDel;
+    if (attributeClass===attributeClassNew && idPlayout !=='btnAddGroup') attributeClassNew +=classDel;
     document.getElementById(idPlayout).setAttribute("class",attributeClassNew);
     if(zIndex===1)overlay[0].style.display='block';
 }
@@ -225,5 +217,12 @@ function offPlayout(idPlayout,classInsert){
     if(attributeClass.search(classInsert)==(-1))
     document.getElementById(idPlayout).setAttribute("class",attributeClass+classInsert); 
     
+    overlay[0].style.display='none';
+}
+
+function offDisplayFormUpdate(){
+    let overlay =selectOverlay;
+
+    document.getElementsByClassName("fromUpdate")[0].style.display="none";
     overlay[0].style.display='none';
 }

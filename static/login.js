@@ -18,4 +18,4 @@ loginForm.addEventListener('submit', e => {
             alert("Incorrect email or password!");
          }
       });
-  });
+});

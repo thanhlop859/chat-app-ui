@@ -19,5 +19,4 @@ function acceptRequest(node){
             alert("Incorrect!");
          }
     });
-    
 }

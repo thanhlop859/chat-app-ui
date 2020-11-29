@@ -1,10 +1,9 @@
-const selectNameUser = document.getElementById("nameUser");
 
 function getCookie() {
     $.ajax({
        type: "POST",
        url: url+"/auth",
-       async: false,
+       async: true,
        data: "email=tester&password=tester",
        xhrFields:{
             withCredentials:true
@@ -12,7 +11,7 @@ function getCookie() {
        dataType:"text",
        success: function(output,status,res) {
         author =res.getResponseHeader("Authorization");
-        alert("thanh cong");
+        alert("thanh ",author);
         getData();
 
        }, 
@@ -25,12 +24,11 @@ function getData(){
     $.ajax({
         url:url+"/users/tester",
         type:"GET",
-       async:false,
+        async:true,
         headers:{Authorization:author},
         dataType:"text",
         success: function(res) {
             user = JSON.parse(res);
-           selectNameUser.innerText = user.userName;
            console.log(user);
         },
          error: () =>{

@@ -1,6 +1,25 @@
 
 var url = "https://chatapp-kkt.herokuapp.com";
-var user;
+var user ={
+    "id":"5f9eab9ce56cb70d5191b318",
+    "email":"tester","password":"",
+    "age":"25",
+    "gender":"FEMALE",
+    "userName":"tester",
+    "role":"ROLE_USER",
+    "friend":{"tester1":"tester1","khang":"Hoàng Khang"},
+    "group":{
+        "nhommoi26763368":"Nhóm mới",
+        "nhoma26763370":"nhóm a",
+        "nhom5ne26768371":"nhóm 5 nè",
+        "nhom7ne26768861":"Nhóm 7 nè",
+        "nhom12326769210":"Nhóm 123",
+        "nhom3ne26766055":"Nhóm 3 nè ",
+        "nhom4ne26766055":"Nhóm 4 nè "},
+    "friendRequest":{
+    
+    },
+    "receivedFriendRequest":{}};
 var author;
 var listChatting={};
 // const selectBoxInfoUser =document.getElementsByClassName("box-info-user");
